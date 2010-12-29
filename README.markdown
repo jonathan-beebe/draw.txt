@@ -73,25 +73,25 @@ Here's an example of a [file reader](http://www.w3.org/TR/FileAPI/#dfn-filereade
 
 New Display Objects
 -------------------
-    
+
 *   Free-drawing
 
     Draw on mouse-move for arbitrary shapes
-    
+
 *   Circles, Lines, Triangles.
 
-     *
-    * *
-   *   *
-  *     *
- *       *
-* * * * * *
+             *
+            * *
+           *   *
+          *     *
+         *       *
+        * * * * * *
 
-     /\
-    /  \
-   /    \
-  /      \
- /________\
+             /\
+            /  \
+           /    \
+          /      \
+         /________\
 
 *   Other?
 
