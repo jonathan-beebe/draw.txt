@@ -1,6 +1,8 @@
 Draw.txt
 ========
 
+![Screenshot of draw.txt](https://github.com/somethingkindawierd/draw.txt/raw/master/screenshot.jpg "Sceenshot of draw.txt")
+
 A very simple drawing application for *drawing* a text file.
 
 A drawing app where the lines/brushes/shapes are created using monospaced font 
