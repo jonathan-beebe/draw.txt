@@ -86,20 +86,20 @@ New Display Objects
 
 *   Circles, Lines, Triangles.
 
-             *            /\
-            * *          /  \
-           *   *        /    \
-          *     *      /      \
-         *       *    /________\
-        * * * * * *
-
-         
-				    x  x           *  *    
-				 x        x     *        * 
-				x          x   *          *
-				x          x   *          *
-				 x        x     *        * 
-				    x  x           *  *    
+		     *            /\
+		    * *          /  \
+		   *   *        /    \
+		  *     *      /      \
+		 *       *    /________\
+		* * * * * *
+		
+		 
+		    x  x           *  *    
+		 x        x     *        * 
+		x          x   *          *
+		x          x   *          *
+		 x        x     *        * 
+		    x  x           *  *    
 				
 *   Other?
 
