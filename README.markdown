@@ -5,8 +5,8 @@ Draw.txt
 
 A very simple drawing application for *drawing* a text file.
 
-A drawing app where the lines/brushes/shapes are created using monospaced font 
-characters. The final product can be saved as a .txt file.
+Each character is a *pixel* and shapes are drawn with monospaced characters.
+The final product can be saved as a .txt file.
 
 The current version features the ability to draw boxes and create lines of text,
 and sports an unlimited history for some snazzy undo/redo action.
@@ -21,8 +21,19 @@ Furthermore I wanted them stored in plain .txt files.
 Current Status: Experimental
 ============================
 
-This is highly experimental. All it has, right now, are boxes. You can create
-boxes by dragging on the grid. You can move boxes by click-and-dragging them.
+Boxes:
+
+*	You can create boxes by dragging on the grid. 
+* Move boxes by click-and-dragging them.
+
+Text:
+
+* You can create text by clicking on an empty grid-cell.
+*	Edit text by clicking on the text objcet.
+*	Move text by clicking and dragging the object.
+
+Most commands are supported by the history, so undo and redo will work. However 
+a few still need to be completed (e.g. delete.)
 
 To Do
 =====
@@ -37,10 +48,10 @@ Add a license
 
 Find the right free/open-source license
 
-Post to GitHub
+Create demo on github page
 --------------
 
-Post the code to github and create a working demo on github
+Post the working demo to the [github project page](http://somethingkindawierd.github.com/draw.txt/)
 
 Shapes selector
 ---------------
@@ -56,13 +67,6 @@ Ex: new elem creation, whether through a user interaction or a redo event, needs
 to trigger the same code in the controller.
 
 Deletion -- remove the item from the canvas and remove from 'selected' property.
-
-Save
-----
-
-Save the txt directly to...where? Desktop? Cloud? HTML5 Local StorageL?
-
-http://blog.another-d-mention.ro/programming/java-script/open-and-save-files-to-desktop-without-going-to-server/
 
 Open
 ----
@@ -82,26 +86,26 @@ New Display Objects
 
 *   Circles, Lines, Triangles.
 
-             *
-            * *
-           *   *
-          *     *
-         *       *
+             *            /\
+            * *          /  \
+           *   *        /    \
+          *     *      /      \
+         *       *    /________\
         * * * * * *
 
-             /\
-            /  \
-           /    \
-          /      \
-         /________\
-
+         
+				    x  x           *  *    
+				 x        x     *        * 
+				x          x   *          *
+				x          x   *          *
+				 x        x     *        * 
+				    x  x           *  *    
+				
 *   Other?
 
 Canvas/Shape Interactions
 -------------------------
 
-*   Delete
-*   Arrange layers
 *   Resizing of shapes
 *   Keyboard interaction
 
