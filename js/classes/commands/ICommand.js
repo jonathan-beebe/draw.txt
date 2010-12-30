@@ -37,6 +37,7 @@ ICommand = new Class({
     this.canvas = val;
   },
 
+  // Override this for debugging.
   toString: function() {
     throw "Command classes must implement their own toString methods";
   }

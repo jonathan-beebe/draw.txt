@@ -225,12 +225,13 @@ Controller = new Class({
 
   whenMoveUp: function() {
     var indexA = this.canvas.getIndexOfSelected();
-        indexB = null;
+        indexB = null,
+        command = null;
 
     if(indexA !== null) { indexB = indexA + 1; }
 
     if(indexA !== null && indexB !== null) {
-      var command = new ArrangeSwapCommand();
+      command = new ArrangeSwapCommand();
       command.setCanvas(this.canvas);
       command.setBeginDepths([indexA, indexB]);
       this.history.add(command).execute();
@@ -239,12 +240,13 @@ Controller = new Class({
 
   whenMoveDown: function() {
     var indexA = this.canvas.getIndexOfSelected();
-        indexB = null;
+        indexB = null,
+        command = null;
 
     if(indexA !== null) { indexB = indexA - 1; }
 
     if(indexA !== null && indexB !== null) {
-      var command = new ArrangeSwapCommand();
+      command = new ArrangeSwapCommand();
       command.setCanvas(this.canvas);
       command.setBeginDepths([indexA, indexB]);
       this.history.add(command).execute();

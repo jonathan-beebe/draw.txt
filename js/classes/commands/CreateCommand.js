@@ -17,24 +17,12 @@ CreateCommand = new Class({
 
   // Add the target DisplayObject to the canvas.
   execute: function() {
-
-    // Add the shape to the display list of the canvas.
     this.canvas.addChild(this.target);
-
-    // DRAW!
-    this.canvas.draw();
-
   },
 
   // Remove the target DisplayObject from the canvas.
   revert: function() {
-
-    // remove the shape from the display list of the canvas.
     this.canvas.removeChild(this.target);
-
-    // DRAW!
-    this.canvas.draw();
-
   },
 
   toString: function() {
