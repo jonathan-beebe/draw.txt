@@ -3,6 +3,13 @@
 // Defined the character grid to draw within.
 Grid = new Class({
 
+  Binds: ['mouseDown',
+          'mouseMove',
+          'mouseUp',
+          'doubleClick'],
+
+  Implements: Events,
+
   // This is the dom elem to target
   elem: null,
 
@@ -18,10 +25,78 @@ Grid = new Class({
   // The height of our background in characters
   height: null,
 
+  // The first point of an action
+  ptA: null,
+
+  // The most recent point of an action
+  ptB: null,
+
   initialize: function(selector) {
     this.elem = $$(selector);
+
+    this.elem.addEvent('mousedown', this.mouseDown);
+    this.elem.addEvent('dblclick', this.doubleClick);
+
     this.drawGrid();
   },
+
+  doubleClick: function(e) {
+
+    this.ptA = this.findClickLocation(e.target);
+    this.fireEvent('dblclick', [this, this.ptA]);
+
+    e.stop();
+    return false;
+
+  },
+
+  mouseDown: function(e) {
+
+    $(document).addEvent('mouseup', this.mouseUp);
+    this.elem.addEvent('mousemove', this.mouseMove);
+
+    this.ptA = this.findClickLocation(e.target);
+
+    this.fireEvent('mousedown', [this, this.ptA]);
+
+    e.stop();
+    return false;
+
+  },
+
+  mouseMove: function(e) {
+
+    this.ptB = this.findClickLocation(e.target);
+
+    var parent = $$(e.target).getParents('#' + this.elem.get('id'));
+
+    if(parent[0].length) {
+      this.fireEvent('mousemove', [this, this.ptA, this.ptB]);
+    }
+
+    e.stop();
+    return false;
+
+  },
+
+  mouseUp: function(e) {
+
+    $(document).removeEvent('mouseup', this.mouseUp);
+    this.elem.removeEvent('mousemove', this.mouseMove);
+
+    var parent = $$(e.target).getParents('#' + this.elem.get('id'));
+
+    if(parent[0].length) {
+      this.ptB = this.findClickLocation(e.target);
+    }
+
+    this.fireEvent('mouseup', [this, this.ptA, this.ptB]);
+
+    e.stop();
+    return false;
+
+  },
+
 
   // Draw the grid of squares representing our editable area.
   // Each square is akin to a pixel, and is the exact same size a
@@ -125,7 +200,14 @@ Grid = new Class({
   // Add event listeners to the canvas
   listen: function(events) {
     Object.each(events, function(callback, eventType, object) {
-      this.elem.addEvent(eventType, callback);
+      this.addEvent(eventType, callback);
+    }, this);
+  },
+
+  // Add event listeners to the canvas
+  stopListening: function(events) {
+    Object.each(events, function(callback, eventType, object) {
+      this.removeEvent(eventType, callback);
     }, this);
   },
 

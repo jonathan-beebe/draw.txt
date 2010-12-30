@@ -4,7 +4,10 @@
         <meta charset=utf-8>
         <title>draw.txt demo. You're using Jon Beebe's draw.txt web application.</title>
         <link href='styles/main.css' rel='stylesheet' type='text/css'>
+        
         <script src="js/lib/mootools-core-1.3-full-compat.js" type="text/javascript"></script>
+        <script src="js/lib/mootools-more.js" type="text/javascript"></script>
+        
         <script type="text/javascript" src="js/lib/Utilities.js"></script>
         
         <script type="text/javascript" src="js/lib/FileDialogs.js"></script>
@@ -22,8 +25,9 @@
         <script type="text/javascript" src="js/classes/Toolbar.js"></script>
         
         <script type="text/javascript" src="js/classes/history/History.js"></script>
-        <script type="text/javascript" src="js/classes/commands/Command.js"></script>
+        <script type="text/javascript" src="js/classes/commands/ICommand.js"></script>
         <script type="text/javascript" src="js/classes/commands/CreateCommand.js"></script>
+        <script type="text/javascript" src="js/classes/commands/DeleteCommand.js"></script>
         <script type="text/javascript" src="js/classes/commands/MoveCommand.js"></script>
         <script type="text/javascript" src="js/classes/commands/TextEditCommand.js"></script>
         <script type="text/javascript" src="js/classes/commands/ArrangeFrontCommand.js"></script>
@@ -38,35 +42,45 @@
 
     </head>
     <body>
-        <div id="toolbar">
-        	<div id="openClosePlaceholder"></div>
-            <span class="spacer">&nbsp;</span>
-            <img class="button" id="undo" src="images/arrow_undo.png" />
-            <img class="button" id="redo" src="images/arrow_redo.png" />
-            <img class="button" id="edit" src="images/pencil.png" />
-            <img class="button" id="preview" src="images/page_white_edit.png" />
-            <span class="spacer">&nbsp;</span>
-            <img class="button" id="move_front" src="images/shape_move_front.png" />
-            <img class="button" id="move_up" src="images/shape_move_forwards.png" />
-            <img class="button" id="move_down" src="images/shape_move_backwards.png" />
-            <img class="button" id="move_back" src="images/shape_move_back.png" />
-            <span class="spacer">&nbsp;</span>
-            <img class="button" id="delete" src="images/delete.png" />
-        </div>
-            
-        <div id="left">
-            
-            <div id="canvas"></div>
-            <div id="grid"></div>
-            
-            <div class="clear"></div>
-        </div>
+        <div id="app">
+            <div id="toolbar">
+            	<div id="openClosePlaceholder"></div>
+                <span class="spacer">&nbsp;</span>
+                <img class="button" id="undo" src="images/arrow_undo.png" title="Undo the last change" alt="Undo the last change" />
+                <img class="button" id="redo" src="images/arrow_redo.png" title="Redo the last change" alt="Redo the last change"/>
+                <img class="button" id="edit" src="images/pencil.png" title="View in edit mode" alt="View in edit mode"/>
+                <img class="button" id="preview" src="images/page_white_edit.png" title="Show preview of text" alt="Show preview of text"/>
+                <span class="spacer">&nbsp;</span>
+                <img class="button" id="move_front" src="images/shape_move_front.png" title="Move selection to front" alt="Move selection to front" />
+                <img class="button" id="move_up" src="images/shape_move_forwards.png" title="Move selection up one level" alt="Move selection up one level" />
+                <img class="button" id="move_down" src="images/shape_move_backwards.png" title="Move selection down one level" alt="Move selection down one level" />
+                <img class="button" id="move_back" src="images/shape_move_back.png" title="Move selection to back" alt="Move selection to back" />
+                <span class="spacer">&nbsp;</span>
+                <img class="button" id="toggle_solid" src="images/shading.png" title="Toggle solid/transparent shapes" alt="Toggle solid/transparent shapes"/>
+                <img class="button" id="toggle_interface" src="images/contrast.png" title="Toggle light/dark interface" alt="Toggle light/dark interface"/>
+                <span class="spacer">&nbsp;</span>
+                <img class="button" id="delete" src="images/delete.png" title="Delete selection" alt="Delete Selection"/>
+            </div>
+                
+            <div id="left">
+                
+                <div id="canvas"></div>
+                <div id="grid"></div>
 
-        <div id="right" class="hidden">
-            <div id="txt"></div>
+            </div>
+    
+            <div id="right" class="hidden">
+                <div id="txt"></div>
+            </div>
+        
         </div>
         
-        <div class="clear"></div>
+        <div class="footer">
+      get the source code on GitHub : <a href="http://github.com/somethingkindawierd/draw.txt">somethingkindawierd/draw.txt</a>
+    
+      <p>© Copyright 2010 <a href="http://www.somethingkindawierd.com/blog" title="About Jon Beebe">Jon Beebe</a></p>
+    
+    </div>
     </body>
 
 </html>

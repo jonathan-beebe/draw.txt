@@ -33,7 +33,7 @@ Text = new Class({
         left = this.getX(),
         hit = false,
         contentArray = this.draw();
-    
+
     if(contentArray[pt.y - top]) {
       if(contentArray[pt.y - top][pt.x - left]) {
         hit = true;
@@ -44,21 +44,25 @@ Text = new Class({
   },
 
   draw: function() {
-    
+
     var a = this.txt.replace(/\n\r?/g, '<br />').split("<br />"),
         finalArray = [];
-    
+
     for(var h = 0; h < a.length; h++) {
       var row = a[h];
-      
+
       finalArray[h] = [];
-      
+
       for(var w = 0; w < row.length; w++) {
         finalArray[h][w] = row[w] === ' ' ? '&nbsp;' : row[w];
       }
     }
-    
+
     return finalArray;
+  },
+
+  toString: function() {
+    return '{type: Text, value: "' + this.txt + '"}';
   }
 
 });

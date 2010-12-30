@@ -1,5 +1,7 @@
 Canvas = new Class({
 
+  Implements: Events,
+
   elem: null,
 
   displayList: [],
@@ -27,14 +29,14 @@ Canvas = new Class({
   // Add event listeners to the canvas
   listen: function(events) {
     Object.each(events, function(callback, eventType, object) {
-      this.elem.addEvent(eventType, callback);
+      this.addEvent(eventType, callback);
     }, this);
   },
 
   draw: function(silent) {
 
     silent = silent || false;
-    
+
     // Init our matrix
     this.initMatrix(this.width, this.height);
 
@@ -46,7 +48,7 @@ Canvas = new Class({
     this.elem.set('html', this.txt);
 
     if(!silent) {
-      this.elem.fireEvent('canvasRefresh', this);
+      this.fireEvent('canvasRefresh', this);
     }
 
   },
@@ -105,52 +107,52 @@ Canvas = new Class({
   },
 
   addChildAt: function(child, index) {
-    
+
     // Break the array into the left and right pieces.
     var left = this.displayList.slice(0, index),
         right = this.displayList.slice(index);
-    
+
     // Merge the left and right arrays with the new child in the middle.
     this.displayList = Utilities.arrayMerge(left, [child], right);
   },
-  
+
   removeChild: function(child) {
     this.displayList.erase(child);
   },
-  
+
   swapChildren: function(indexA, indexB) {
-    
+
     var childA = this.getChildAt(indexA),
         childB = this.getChildAt(indexB);
-    
+
     if(childA && childB) {
       this.displayList[indexA] = childB;
       this.displayList[indexB] = childA;
     }
   },
-  
+
   getChildAt: function(index) {
     if(this.displayList[index]) {
       return this.displayList[index];
     }
     return null;
   },
-  
+
   getIndexOfChild: function(child) {
     var found = false,
         i = 0,
         max = this.displayList.length-1;
-        
+
     for(var i = max; i >= 0; i-- ) {
       if(this.displayList[i] === child) {
         found = i;
         break;
       }
     }
-    
+
     return found;
   },
-  
+
   getIndexOfSelected: function() {
     var i = null;
     if(this.selected) {
@@ -158,11 +160,11 @@ Canvas = new Class({
     }
     return i;
   },
-  
+
   removeChildAt: function(index) {
 
     var removed = null;
-    
+
     if (this.displayList.length >= index) {
       removed = this.displayList.splice(index, 1)[0];
       if(removed === this.selected) {
@@ -177,7 +179,7 @@ Canvas = new Class({
   count: function() {
     return this.displayList.length;
   },
-  
+
   getText: function(redraw) {
     if(redraw) {
       this.draw(true);

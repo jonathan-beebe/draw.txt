@@ -1,9 +1,10 @@
-// # Move Command
+// Move Command
+// ------------
 
 // Move a display object.
 MoveCommand = new Class({
 
-  Implements: Command,
+  Implements: ICommand,
 
   // The original location.
   ptA: null,
@@ -34,6 +35,11 @@ MoveCommand = new Class({
   // Set the new location of the target.
   setEndPoint: function(val) {
     this.ptB = val;
+  },
+
+  toString: function() {
+    return '{name: Move, ptA: ' + this.ptA.toString() +
+           ', ptB: ' + this.ptB.toString() + '}';
   }
 
 });

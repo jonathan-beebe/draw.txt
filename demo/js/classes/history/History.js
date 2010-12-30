@@ -4,7 +4,7 @@
 // Paired with the Command class, it provides for a basic undo/redo system.
 History = new Class({
 
-  Implements: Options,
+  Implements: [Options, Events],
 
   // Options? Not used yet...they're optional!
   options: {},
@@ -27,6 +27,7 @@ History = new Class({
       var c = this.stack[this.pos-1];
       c.revert.call(c);
       this.pos--;
+      this.fireEvent('undo');
     }
   },
 
@@ -36,6 +37,7 @@ History = new Class({
       var c = this.stack[this.pos];
       c.execute.call(c);
       this.pos++;
+      this.fireEvent('redo');
     }
   },
 
@@ -52,7 +54,29 @@ History = new Class({
     this.stack.push(command);
     this.pos++;
 
-    return command;
+    return this;
+  },
+
+  execute: function() {
+    this.stack[this.stack.length-1].execute();
+    this.fireEvent('redo');
+  },
+
+  // Add event listeners to the canvas
+  listen: function(events) {
+    Object.each(events, function(callback, eventType, object) {
+      this.addEvent(eventType, callback);
+    }, this);
+  },
+
+  toString: function() {
+    var s = '';
+
+    this.stack.each(function(item, index, array) {
+      s += item.toString() + "\n";
+    });
+
+    return s;
   }
 
 });
