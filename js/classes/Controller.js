@@ -5,12 +5,23 @@
 // I decide where I want it to live.
 Controller = new Class({
 
-  Binds: ['whenMouseDown',
+  // Bind all event listeners to this class instance
+  Binds: [
+
+          // Grid Events
+          'whenMouseDown',
           'whenMouseUp',
           'whenMouseMove',
           'whenGridCancel',
+          'whenGridDoubleClick',
+
+          // History Events
           'whenHistoryChange',
+
+          // Canvas Events
           'whenCanvasRefresh',
+
+          // Toolbar button events
           'whenUndo',
           'whenRedo',
           'whenDelete',
@@ -19,7 +30,8 @@ Controller = new Class({
           'whenMoveFront',
           'whenMoveUp',
           'whenMoveDown',
-          'whenMoveBack'],
+          'whenMoveBack'
+  ],
 
   // ## Class Properties
 
@@ -110,7 +122,8 @@ Controller = new Class({
       mousedown: this.whenMouseDown,
       mouseup: this.whenMouseUp,
       mousemove: this.whenMouseMove,
-      cancel: this.whenGridCancel
+      cancel: this.whenGridCancel,
+      dblclick: this.whenGridDoubleClick
     });
 
     this.toolbar.listen({
@@ -145,7 +158,6 @@ Controller = new Class({
   // ### History Events
 
   whenHistoryChange: function(e) {
-    console.log('History Change...');
     this.canvas.draw();
   },
 
@@ -254,6 +266,23 @@ Controller = new Class({
 
   // ### Mouse events on the grid
 
+  whenGridDoubleClick: function(grid, ptA) {
+
+    // Did we hit an existing DisplayObject?
+    var hit = this.canvas.hitTest(ptA);
+
+    if(hit) {
+      this.canvas.setSelected(hit);
+      this.canvas.draw();
+
+      // Store the offset of the click relative to the hit object's origin.
+      this.clickOffset = new Point(ptA.x - hit.getX(), ptA.y - hit.getY());
+
+      this.editShape(ptA, ptA);
+    }
+
+  },
+
   whenMouseDown: function(grid, ptA) {
 
     // Record the location of the click
@@ -311,6 +340,7 @@ Controller = new Class({
 
     var newShape = null;
 
+    // If we have no selection on the canvas...
     if(!this.canvas.getSelected()) {
 
       // If the user did not drag the mouse and did not hit existing art object...
@@ -327,8 +357,14 @@ Controller = new Class({
       this.createShape(newShape, ptA, ptB);
 
     }
+
+    // We have a selection. Do we edit it?
     else {
-      this.editShape(ptA, ptB);
+
+      // Only edit if the mouse has moved during this operation.
+      if(this.dragging) {
+        this.editShape(ptA, ptB);
+      }
     }
 
     grid.clearDraw();
@@ -528,6 +564,11 @@ Controller = new Class({
 
     // Return the fixed text
     return txt.replace(/&nbsp;\r?/g, ' ').replace(/<br\/>\r?/g, "\n");
+  },
+
+  // log the history to the console
+  debugHistory: function() {
+    console.log('History: [\n' + this.history.toString() + ']');
   }
 
 }); /* </ Controller > */

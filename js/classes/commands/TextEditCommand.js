@@ -1,9 +1,10 @@
-// # Text Edit Command
+// Text Edit Command
+// -----------------
 
 // Edit the textual content of a Text Display Object
 TextEditCommand = new Class({
 
-  Implements: Command,
+  Implements: ICommand,
 
   // The target DisplayObject to be edited.
   target: null,
@@ -27,14 +28,17 @@ TextEditCommand = new Class({
     this.newText = val;
   },
 
-  // Add the target DisplayObject to the canvas.
   execute: function() {
     this.target.setText(this.newText);
   },
 
-  // Remove the target DisplayObject from the canvas.
   revert: function() {
     this.target.setText(this.originalText);
+  },
+
+  toString: function() {
+    return '{name: TextEdit, originalText: "' + this.originalText +
+           '", newText: "' + this.newText + '"}';
   }
 
 });

@@ -5,7 +5,8 @@ Grid = new Class({
 
   Binds: ['mouseDown',
           'mouseMove',
-          'mouseUp'],
+          'mouseUp',
+          'doubleClick'],
 
   Implements: Events,
 
@@ -24,8 +25,6 @@ Grid = new Class({
   // The height of our background in characters
   height: null,
 
-  // Store relevant points during an action
-
   // The first point of an action
   ptA: null,
 
@@ -36,8 +35,19 @@ Grid = new Class({
     this.elem = $$(selector);
 
     this.elem.addEvent('mousedown', this.mouseDown);
+    this.elem.addEvent('dblclick', this.doubleClick);
 
     this.drawGrid();
+  },
+
+  doubleClick: function(e) {
+
+    this.ptA = this.findClickLocation(e.target);
+    this.fireEvent('dblclick', [this, this.ptA]);
+
+    e.stop();
+    return false;
+
   },
 
   mouseDown: function(e) {
@@ -51,6 +61,7 @@ Grid = new Class({
 
     e.stop();
     return false;
+
   },
 
   mouseMove: function(e) {
@@ -80,10 +91,6 @@ Grid = new Class({
     }
 
     this.fireEvent('mouseup', [this, this.ptA, this.ptB]);
-
-//    else {
-//      this.fireEvent('cancel', this);
-//    }
 
     e.stop();
     return false;

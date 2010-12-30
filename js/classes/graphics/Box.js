@@ -108,6 +108,11 @@ Box = new Class({
       return a[pt.x][pt.y];
     }
     return null;
+  },
+
+  toString: function() {
+    return '{type: Box, x:' + this.x + ', y:' + this.y +
+           ', width:' + this.width + ', height:' + this.height + '}';
   }
 
 });

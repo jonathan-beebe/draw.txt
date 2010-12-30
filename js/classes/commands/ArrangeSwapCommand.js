@@ -1,17 +1,10 @@
 ArrangeSwapCommand = new Class({
 
-  Implements: Command,
-
-  // The canvas we will add to and remove from.
-  canvas: null,
+  Implements: ICommand,
 
   beginDepths: [],
 
   initialize: function(){},
-
-  setCanvas: function(val) {
-    this.canvas = val;
-  },
 
   // Move the target to the new depth.
   execute: function() {
@@ -25,6 +18,11 @@ ArrangeSwapCommand = new Class({
 
   setBeginDepths: function(a) {
     this.beginDepths = a;
+  },
+
+  toString: function() {
+    return '{name: ArrangeSwap, ptA: ' + this.beginDepths[0].toString() +
+           ', ptB: ' + this.beginDepths[1].toString() + '}';
   }
 
 });

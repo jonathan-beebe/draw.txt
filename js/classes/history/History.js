@@ -67,6 +67,16 @@ History = new Class({
     Object.each(events, function(callback, eventType, object) {
       this.addEvent(eventType, callback);
     }, this);
+  },
+
+  toString: function() {
+    var s = '';
+
+    this.stack.each(function(item, index, array) {
+      s += item.toString() + "\n";
+    });
+
+    return s;
   }
 
 });

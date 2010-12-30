@@ -2,10 +2,13 @@
 
 // The base command class.
 // All specific commands should implement this interface.
-Command = new Class({
+ICommand = new Class({
 
   // The target DisplayObject to apply this command to.
   target: null,
+
+  // The canvas we will add to and remove from.
+  canvas: null,
 
   // Constructor
   initialize: function() {},
@@ -28,6 +31,14 @@ Command = new Class({
 
   getTarget: function() {
     return this.target;
+  },
+
+  setCanvas: function(val) {
+    this.canvas = val;
+  },
+
+  toString: function() {
+    throw "Command classes must implement their own toString methods";
   }
 
 });

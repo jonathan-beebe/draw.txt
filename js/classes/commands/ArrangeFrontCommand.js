@@ -1,32 +1,35 @@
 ArrangeFrontCommand = new Class({
 
-  Implements: Command,
-
-  // The canvas we will add to and remove from.
-  canvas: null,
+  Implements: ICommand,
 
   originalDepth: null,
 
   initialize: function(){},
 
-  setCanvas: function(val) {
-    this.canvas = val;
-  },
-
   // Move the target to the new depth.
   execute: function() {
-    var child = this.canvas.removeChildAt(this.originalDepth);
-    this.canvas.addChild(child);
+
+    if(!this.target) {
+      this.target = this.canvas.getChildAt(this.originalDepth);
+    }
+
+    this.canvas.removeChild(this.target);
+    this.canvas.addChild(this.target);
   },
 
   // Place the target object back in its original depth.
   revert: function(target) {
-    var child = this.canvas.removeChildAt(this.canvas.count()-1);
-    this.canvas.addChildAt(child, this.originalDepth);
+    this.canvas.removeChild(this.target);
+    this.canvas.addChildAt(this.target, this.originalDepth);
   },
 
   setOriginalDepth: function(val) {
     this.originalDepth = val;
+  },
+
+  toString: function() {
+    return '{name: ArrangeFront, originalDepth: ' + this.originalDepth +
+           ', target: ' + this.target.toString() + '}';
   }
 
 });

@@ -3,20 +3,13 @@
 // Create a new DisplayObject.
 CreateCommand = new Class({
 
-  Implements: Command,
-
-  // The canvas we will add to and remove from.
-  canvas: null,
+  Implements: ICommand,
 
   // The target DisplayObject to be created on execute, removed on revert.
   target: null,
 
   // Constructor
   initialize: function() {},
-
-  setCanvas: function(val) {
-    this.canvas = val;
-  },
 
   setTarget: function(val) {
     this.target = val;
@@ -42,6 +35,10 @@ CreateCommand = new Class({
     // DRAW!
     this.canvas.draw();
 
+  },
+
+  toString: function() {
+    return '{name: Create, target: ' + this.target.toString() + '}';
   }
 
 });
