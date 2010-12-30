@@ -1,7 +1,7 @@
 Draw.txt [demo](http://somethingkindawierd.github.com/draw.txt/demo/index.html)
 ========
 
-![Screenshot of draw.txt](https://github.com/somethingkindawierd/draw.txt/raw/master/screenshot.jpg "Sceenshot of draw.txt")
+![Screenshot of draw.txt](https://github.com/somethingkindawierd/draw.txt/raw/master/screenshot.png "Sceenshot of draw.txt")
 
 A very simple drawing application for *drawing* a text file. [Try the live demo](http://somethingkindawierd.github.com/draw.txt/demo/index.html)
 
