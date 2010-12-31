@@ -28,19 +28,19 @@ a:visited {
   height: 22px;
 }
 
-#toolbar span.spacer { float: left; margin: 0 5px; }
+#toolbar span.spacer { margin: 0 5px; }
 
 #toolbar #openClosePlaceholder {
 	width: 40px;
 	height: 16px;
 	overflow: hidden;
+    display: inline-block;
 }
 
 #toolbar img, #openClosePlaceholder {
     position: relative;
     padding: 2px;
     top: 2px;
-    float: left;
 }
 
 #toolbar img:hover {

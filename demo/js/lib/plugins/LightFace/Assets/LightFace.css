@@ -227,3 +227,60 @@
 .lightface .lightFaceMessageBoxImage img {
 	display: block;
 }
+
+
+
+
+/* < Dark Style > */
+
+body.dark .lightface {
+    color: white;
+}
+
+body.dark .lightface .centerLeft, 
+body.dark .lightface .centerRight {
+    background-image: url(dark/b.png);
+}
+
+body.dark .lightface .topLeft {
+    background-image: url(dark/tl.png);
+}
+
+body.dark .lightface .topRight {
+    background-image: url(dark/tr.png);
+}
+
+body.dark .lightface .bottomLeft {
+    background-image: url(dark/bl.png);
+}
+
+body.dark .lightface .bottomRight {
+    background-image: url(dark/br.png);
+}
+
+body.dark .lightface .topCenter, 
+body.dark .lightface .bottomCenter {
+    background-image: url(dark/b.png);
+}
+
+body.dark .lightface .lightfaceContent {
+    background-color: #bbb;
+    border: 1px solid #555;
+}
+
+body.dark .lightface .lightfaceContent .lightfaceFooter {
+    background-color: #aaa;
+    border-top: 1px solid #555;
+}
+
+body.dark .lightface .lightfaceFooter label {
+    background-image:url(button.png);
+}
+
+body.dark .lightface textarea {
+    background-color: #ccc;
+    color: black;
+    text-shadow: 0 1px 1px white;
+    border: 1px solid #888;
+}
+/* </ Dark Style > */
