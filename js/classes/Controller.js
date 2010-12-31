@@ -109,6 +109,8 @@ Controller = new Class({
 
     // Wire up event listeners
     this.initEvents();
+
+    this.readLocalStorage();
   },
 
   // Initialize all event listeners
@@ -147,6 +149,18 @@ Controller = new Class({
 
   },
 
+  // Read in settings from local storage
+  readLocalStorage: function() {
+
+    var st = new LocalStorage({debug:true}),
+        theme = st.get('theme');
+
+    if(theme) {
+      $(document.body).addClass(theme);
+    }
+
+  },
+
 
 
 
@@ -170,15 +184,18 @@ Controller = new Class({
   },
 
   whenToggleInterface: function(e) {
-    var body = $(document.body);
-    console.log(body);
+    var body = $(document.body),
+        st = new LocalStorage({debug:true});
+
     if(body.hasClass('dark')) {
       console.log('removing dark...');
       body.removeClass('dark');
+      st.set('theme', 'light');
     }
     else {
       console.log('adding dark...');
       body.addClass('dark');
+      st.set('theme', 'dark');
     }
   },
 
