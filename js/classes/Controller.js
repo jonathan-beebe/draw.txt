@@ -47,6 +47,8 @@ Controller = new Class({
 
   overlay: null,
 
+  localStorage: null,
+
   // Track user-actions
   dragging: false,
 
@@ -235,20 +237,20 @@ Controller = new Class({
 
   whenOpen: function() {
 
-    var reply = prompt("Name of file to open:", "");
+    var reply, lfs, fileContents;
+
+    reply = prompt("Name of file to open:", "");
 
     if(reply && reply !== '') {
-      var st = new LocalStorage({debug:true}),
-          filenames = st.get('userFileNames');
 
-      if(filenames && filenames.contains(reply)) {
-        var fileContents = st.get('file_' + reply);
-        if(fileContents) {
-          if(this.canvas.fromJSON(fileContents)) {
-            console.log('SUCCESS opening json!');
-            this.history.clear();
-            this.canvas.draw();
-          }
+      lfs = this.getLocalStorage();
+      fileContents = lfs.read(reply);
+
+      if(fileContents) {
+        if(this.canvas.fromJSON(fileContents)) {
+          console.log('SUCCESS opening json!');
+          this.history.clear();
+          this.canvas.draw();
         }
       }
 
@@ -261,18 +263,8 @@ Controller = new Class({
     var reply = prompt("Name of file to save:", "");
 
     if(reply && reply !== '') {
-      var st = new LocalStorage({debug:true}),
-          filenames = st.get('userFileNames');
-
-      if(!filenames) { filenames = []; }
-
-      if(!filenames.contains(reply)) {
-        filenames.push(reply);
-      }
-
-      st.set('userFileNames', filenames);
-      st.set('file_' + reply, JSON.encode(this.canvas.toJSON()));
-
+      var lfs = this.getLocalStorage();
+      lfs.save(reply, this.canvas.toJSON());
     }
 
   },
@@ -627,6 +619,14 @@ Controller = new Class({
 
   cleanText: function(string) {
     return string.replace(/&nbsp;\r?/g, ' ').replace(/<br\/>\r?/g, "\n").replace(/(<[\/]?[a-zA-Z ]+)[^>]*>/g, '');
+  },
+
+  // Get the local storage engine.
+  getLocalStorage: function() {
+    if(!this.localStorage) {
+      this.localStorage = new LocalFileStorage({namespace: 'draw.txt'});
+    }
+    return this.localStorage;
   },
 
   // log the history to the console

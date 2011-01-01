@@ -197,20 +197,29 @@ Canvas = new Class({
   },
 
   fromJSON: function(json) {
-    var obj = JSON.decode(json);
 
-    if(obj.displayList) {
+    var errors = [];
+
+    if(typeof json !== 'object') {
+      json = JSON.decode(json);
+    }
+
+    if(json.displayList) {
 
       this.displayList = [];
 
-      try {
-        Array.each(obj.displayList, function(item, index, obj) {
+      Array.each(json.displayList, function(item, index, obj) {
+        try {
           var newObj = DisplayObjectFactory.create(item);
           this.displayList.push(newObj);
-        }, this);
-      }
-      catch (e) {
-        return false;
+        }
+        catch (e) {
+          errors.push(e);
+        }
+      }, this);
+
+      if(errors.length) {
+        console.log('Errors encountered while opening file: ', errors);
       }
 
       return true;
