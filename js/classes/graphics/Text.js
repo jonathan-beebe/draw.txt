@@ -6,13 +6,14 @@ Text = new Class({
   // Build off of the base DisplayObject
   Extends: DisplayObject,
 
-  defaultText: 'New Text Box',
+  type: 'Text',
 
   txt: 'New Text Box',
 
   // Constructor
   initialize: function(props) {
     this.parent(props);
+    this.txt = props.txt || this.txt;
   },
 
   setText: function(val) {
@@ -63,6 +64,21 @@ Text = new Class({
 
   toString: function() {
     return '{type: Text, value: "' + this.txt + '"}';
+  },
+
+  toJSON: function() {
+    var json = {
+        type: this.type,
+        name: this.name,
+        x: this.x,
+        y: this.y,
+        txt: this.txt.replace('\n', '\\n')
+    };
+    return json;
+  },
+
+  fromJSON: function(json) {
+    this.initialize(json);
   }
 
 });

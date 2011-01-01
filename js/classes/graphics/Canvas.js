@@ -185,6 +185,40 @@ Canvas = new Class({
       this.draw(true);
     }
     return this.txt;
+  },
+
+  toJSON: function() {
+    var json = {displayList:[]};
+    Array.each(this.displayList, function(item, index, array) {
+      json.displayList.push(item.toJSON());
+    }, this);
+
+    return json;
+  },
+
+  fromJSON: function(json) {
+    var obj = JSON.decode(json);
+
+    if(obj.displayList) {
+
+      this.displayList = [];
+
+      try {
+        Array.each(obj.displayList, function(item, index, obj) {
+          var newObj = DisplayObjectFactory.create(item);
+          this.displayList.push(newObj);
+        }, this);
+      }
+      catch (e) {
+        return false;
+      }
+
+      return true;
+
+    }
+    else {
+      return false;
+    }
   }
 
 });

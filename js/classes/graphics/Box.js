@@ -6,6 +6,8 @@ Box = new Class({
   // Build off of the base DisplayObject
   Extends: DisplayObject,
 
+  type: 'Box',
+
   // Store our matrix of display information here
   m:null,
 
@@ -113,6 +115,24 @@ Box = new Class({
   toString: function() {
     return '{type: Box, x:' + this.x + ', y:' + this.y +
            ', width:' + this.width + ', height:' + this.height + '}';
+  },
+
+  toJSON: function() {
+    var json = {
+        type: this.type,
+        name: this.name,
+        x: this.x,
+        y: this.y,
+        width: this.width,
+        height: this.height,
+        char: this.char,
+        solid: this.solid
+    };
+    return json;
+  },
+
+  fromJSON: function(json) {
+    this.initialize(json);
   }
 
 });

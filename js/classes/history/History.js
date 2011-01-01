@@ -21,6 +21,16 @@ History = new Class({
     this.setOptions(options);
   },
 
+  // Clear the history stack.
+  // Returns the history array in case we want to restore it later.
+  // If you want to permanently clear the history, just ignore the return result.
+  clear: function() {
+    var h = this.stack;
+    this.stack = [];
+    this.pos = 0;
+    return h;
+  },
+
   // Undo the previous action.
   undo: function() {
     if(this.pos > 0) {

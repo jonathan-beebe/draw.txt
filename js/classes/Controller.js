@@ -30,7 +30,9 @@ Controller = new Class({
           'whenMoveFront',
           'whenMoveUp',
           'whenMoveDown',
-          'whenMoveBack'
+          'whenMoveBack',
+          'whenOpen',
+          'whenSave'
   ],
 
   // ## Class Properties
@@ -139,7 +141,9 @@ Controller = new Class({
       move_down: this.whenMoveDown,
       move_back: this.whenMoveBack,
       toggle_interface: this.whenToggleInterface,
-      toggle_solid: this.whenToggleSolid
+      toggle_solid: this.whenToggleSolid,
+      open: this.whenOpen,
+      save: this.whenSave
     });
 
     this.history.listen({
@@ -227,6 +231,50 @@ Controller = new Class({
 
   whenRedo: function() {
     this.history.redo();
+  },
+
+  whenOpen: function() {
+
+    var reply = prompt("Name of file to open:", "");
+
+    if(reply && reply !== '') {
+      var st = new LocalStorage({debug:true}),
+          filenames = st.get('userFileNames');
+
+      if(filenames && filenames.contains(reply)) {
+        var fileContents = st.get('file_' + reply);
+        if(fileContents) {
+          if(this.canvas.fromJSON(fileContents)) {
+            console.log('SUCCESS opening json!');
+            this.history.clear();
+            this.canvas.draw();
+          }
+        }
+      }
+
+    }
+
+  },
+
+  whenSave: function() {
+
+    var reply = prompt("Name of file to save:", "");
+
+    if(reply && reply !== '') {
+      var st = new LocalStorage({debug:true}),
+          filenames = st.get('userFileNames');
+
+      if(!filenames) { filenames = []; }
+
+      if(!filenames.contains(reply)) {
+        filenames.push(reply);
+      }
+
+      st.set('userFileNames', filenames);
+      st.set('file_' + reply, JSON.encode(this.canvas.toJSON()));
+
+    }
+
   },
 
   // TODO: for arrange commands, if already at to/bottom then do not perform command.
@@ -408,7 +456,7 @@ Controller = new Class({
     var txt = canvas.getText();
 
     // Show the text in the preview element.
-    $$('#txt').set('html', txt);
+    $$('#txt').set('value', this.cleanText(txt));
   },
 
 
@@ -570,24 +618,35 @@ Controller = new Class({
 
   getTextForSaving: function() {
 
-    // @hack I know, this could be alot better...
-    // Remove the selection so it's not drawn 'selected'
-    // var s = this.canvas.getSelected();
-    this.canvas.setSelected(null);
-
     // Get the text and be silent about it
     var txt = this.canvas.getText(true);
 
-    // Reset the selection
-    // this.canvas.setSelected(s);
-
     // Return the fixed text
-    return txt.replace(/&nbsp;\r?/g, ' ').replace(/<br\/>\r?/g, "\n");
+    return this.cleanText(txt);
+  },
+
+  cleanText: function(string) {
+    return string.replace(/&nbsp;\r?/g, ' ').replace(/<br\/>\r?/g, "\n").replace(/(<[\/]?[a-zA-Z ]+)[^>]*>/g, '');
   },
 
   // log the history to the console
   debugHistory: function() {
     console.log('History: [\n' + this.history.toString() + ']');
+  },
+
+  debugDisplayList: function() {
+    console.log(JSON.encode(this.canvas.toJSON()));
+  },
+
+  debugFromJSON: function(json) {
+    if(this.canvas.fromJSON(json)) {
+      console.log('SUCCESS opening json!');
+      this.history.clear();
+      this.canvas.draw();
+    }
+    else {
+      console.log('FAILED to open json :(');
+    }
   }
 
 }); /* </ Controller > */

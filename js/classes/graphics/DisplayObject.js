@@ -5,6 +5,8 @@ DisplayObject = new Class({
 
   name: '',
 
+  type: 'DisplayObject',
+
   // Left coordinate.
   x: 0,
 
@@ -12,9 +14,9 @@ DisplayObject = new Class({
   y: 0,
 
   // Constructor
-  initialize: function(params) {
-    this.x = params.x || 0;
-    this.y = params.y || 0;
+  initialize: function(props) {
+    this.x = props.x || 0;
+    this.y = props.y || 0;
   },
 
   setName: function(val) { this.name = val; },
@@ -23,6 +25,8 @@ DisplayObject = new Class({
   getX: function() { return this.x; },
 
   getY: function() { return this.y; },
+
+  getType: function() { return this.type; },
 
   setPosition: function(pt) {
     this.x = pt.x;
@@ -43,6 +47,20 @@ DisplayObject = new Class({
     throw 'Display Objects must implement the hitTest method';
   },
 
+  toString: function() {
+    throw 'Display Objects must implement their own toString method';
+  },
+
+  // Render the object's properties to json so it can be saved.
+  toJSON: function() {
+    throw 'Display Objects must implement their own toJSON method';
+  },
+
+  // Re-create the object from the json created from the toJSON method.
+  fromJSON: function() {
+    throw 'Display Objects must implement their own fromJSON method';
+  },
+
   // Interface for the draw method.
   // Must return an array of characters fit for display to user.
   draw: function() {
@@ -50,3 +68,28 @@ DisplayObject = new Class({
   }
 
 });
+
+DisplayObjectFactory = (function(props) {
+
+  var createDisplayObject = function(props) {
+    if(props.type) {
+      switch(props.type) {
+
+      case 'Box':
+        return new Box(props);
+      break;
+
+      case 'Text':
+        return new Text(props);
+      break;
+
+      default: throw 'Could not find display object type "' + props.type + '"';
+      break;
+
+      }
+    }
+  };
+
+  return {create: createDisplayObject};
+
+})();
