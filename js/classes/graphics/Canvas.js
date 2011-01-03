@@ -1,38 +1,56 @@
+// Artboard for drawing
+// --------------------
+
+// This is where you do your drawing...
 Canvas = new Class({
 
   Implements: Events,
 
   elem: null,
 
+  // Our list of DisplayObjects
   displayList: [],
 
+  // Our matrix of text characters making up our display
   txtArray: [],
 
+  // Here we store our display as a string
   txt: '',
 
   width: null,
 
   height: null,
 
+  // Store the currently selected DisplayObject
   selected: null,
 
+  // Constructor
   initialize: function(selector, w, h) {
     this.elem = $$(selector);
     this.width = w;
     this.height = h;
   },
 
+  // Initialize our display matrix
   initMatrix: function(w, h) {
     this.txtArray = new Matrix(w, h, '&nbsp;');
   },
 
-  // Add event listeners to the canvas
-  listen: function(events) {
-    Object.each(events, function(callback, eventType, object) {
-      this.addEvent(eventType, callback);
-    }, this);
+  // Manage the currently selected DisplayObject
+  setSelected: function(val) { this.selected = val; },
+  getSelected: function() { return this.selected; },
+
+  getIndexOfSelected: function() {
+    var i = null;
+    if(this.selected) {
+      i = this.getIndexOfChild(this.selected);
+    }
+    return i;
   },
 
+  // Draw our display list.
+  // Here we turn our DisplayObjects into text, and merge the text into
+  // the final array of characters to display.
   draw: function(silent) {
 
     silent = silent || false;
@@ -41,7 +59,7 @@ Canvas = new Class({
     this.initMatrix(this.width, this.height);
 
     // Turn the display list into a single array of characters
-    Array.each(this.displayList, this.drawDisplayList, this);
+    Array.each(this.displayList, this.drawDisplayListItem, this);
 
     // Insert into DOM
     this.txt = this.txtArray.toString();
@@ -53,15 +71,8 @@ Canvas = new Class({
 
   },
 
-  setSelected: function(val) {
-    this.selected = val;
-  },
-
-  getSelected: function() {
-    return this.selected;
-  },
-
-  drawDisplayList: function(item, index, object) {
+  // Given a DisplayObject, turn it into a text matrix.
+  drawDisplayListItem: function(item, index, object) {
 
     var char = item.char,
         xOff = item.getX(),
@@ -75,7 +86,7 @@ Canvas = new Class({
           if(item === this.selected) {
             row = '<span class="selected">' + row + '</span>';
           }
-          m[Number(yOff) + columnIndex][Number(xOff) + rowIndex] = row; //item.charAt({x:columnIndex, y:rowIndex});
+          m[Number(yOff) + columnIndex][Number(xOff) + rowIndex] = row;
         }
         catch (e) {
           // TODO: handle exception
@@ -102,6 +113,9 @@ Canvas = new Class({
     return hit;
   },
 
+  // Display List Management
+  // =======================
+
   addChild: function(child) {
     this.displayList.push(child);
   },
@@ -113,7 +127,7 @@ Canvas = new Class({
         right = this.displayList.slice(index);
 
     // Merge the left and right arrays with the new child in the middle.
-    this.displayList = Utilities.arrayMerge(left, [child], right);
+    this.displayList = [].merge(left, [child], right);
   },
 
   removeChild: function(child) {
@@ -153,14 +167,6 @@ Canvas = new Class({
     return found;
   },
 
-  getIndexOfSelected: function() {
-    var i = null;
-    if(this.selected) {
-      i = this.getIndexOfChild(this.selected);
-    }
-    return i;
-  },
-
   removeChildAt: function(index) {
 
     var removed = null;
@@ -179,6 +185,9 @@ Canvas = new Class({
   count: function() {
     return this.displayList.length;
   },
+
+  // Other methods
+  // =============
 
   getText: function(redraw) {
     if(redraw) {
@@ -231,6 +240,3 @@ Canvas = new Class({
   }
 
 });
-
-//Custom event for canvas update
-Element.Events.canvasRefresh = {};

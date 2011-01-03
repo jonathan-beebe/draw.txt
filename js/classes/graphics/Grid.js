@@ -40,6 +40,9 @@ Grid = new Class({
     this.drawGrid();
   },
 
+  // Mouse Events
+  // ============
+
   doubleClick: function(e) {
 
     this.ptA = this.findClickLocation(e.target);
@@ -97,6 +100,8 @@ Grid = new Class({
 
   },
 
+  // DOM Work
+  // ========
 
   // Draw the grid of squares representing our editable area.
   // Each square is akin to a pixel, and is the exact same size a
@@ -154,27 +159,6 @@ Grid = new Class({
     }
   },
 
-  // Get the width of our grid, in characters
-  getWidth: function() {
-    return this.width;
-  },
-
-  // Get the height of our grid, in characters
-  getHeight: function() {
-    return this.height;
-  },
-
-  // Calculate the size of a single monospaced character, both width and height,
-  // by creating a single M and measuring it's size.
-  getEmSize: function() {
-    var e = this.createSpan('tempSpan', 0, 0, '1em', '1em'),
-    emSize = null, letterSpacing = null;
-    this.elem.adopt(e);
-    emSize = e.getSize();
-    e.dispose();
-    return emSize;
-  },
-
   // Create a span element
   createSpan: function(id, x, y, w, h) {
     var e = new Element('span', {id:id});
@@ -197,54 +181,76 @@ Grid = new Class({
     return e;
   },
 
-  // Add event listeners to the canvas
-  listen: function(events) {
-    Object.each(events, function(callback, eventType, object) {
-      this.addEvent(eventType, callback);
-    }, this);
-  },
-
-  // Add event listeners to the canvas
-  stopListening: function(events) {
-    Object.each(events, function(callback, eventType, object) {
-      this.removeEvent(eventType, callback);
-    }, this);
-  },
-
+  // Clear the bounding box preview from the dom
   clearDraw: function() {
     $$('.preview').removeClass('preview');
   },
 
+  // Mark the cells of the user's current bounding box.
+  // Given an origin point and end point, calculate the box and draw it.
   markDraw: function(ptA, ptB) {
 
-    var x, y, width, height, left, right, top, bottom;
+    var /* @private */
 
-    var prevDisplay = this.elem.getStyle('display');
-    this.elem.setStyle('display', 'none');
+    // The cells marking the bounding box
+    left, right, top, bottom,
 
-    this.clearDraw();
-
-    x = Math.min(ptA.x, ptB.x);
-    y = Math.min(ptA.y, ptB.y);
-    width = Math.max(ptB.x, ptA.x) - x + 1;
+    // The bounds of the box
+    x = Math.min(ptA.x, ptB.x),
+    y = Math.min(ptA.y, ptB.y),
+    width = Math.max(ptB.x, ptA.x) - x + 1,
     height = Math.max(ptB.y, ptA.y) - y + 1;
 
     if(width > 1 || height > 1) {
+
+      // Find all the cells defining the bounding box
       left = this.elem.getChildren('[data-x=' + x + ']')[0].slice(y, y+height);
       right = this.elem.getChildren('[data-x=' + (x + width - 1) + ']')[0].slice(y, y+height);
       top = this.elem.getChildren('[data-y=' + y + ']')[0].slice(x, x + width - 1);
       bottom = this.elem.getChildren('[data-y=' + (y + height - 1) + ']')[0].slice(x, x + width - 1);
 
-      this.markPreviewCells(Utilities.arrayMerge(left, right, top, bottom));
-    }
+      // Clear all previously marked cells
+      this.clearDraw();
 
-    this.elem.setStyle('display', prevDisplay);
+      // Mark all cells in the bounding box
+      this.markPreviewCells([].merge(left, right, top, bottom));
+    }
   },
 
+  // Mark all given cells with '.preview' to show the user the bounds of the
+  // box they've draw.
   markPreviewCells: function(items) {
-    Array.each(items, function(item, index, obj) {
-      item.addClass('preview');
-    });
+
+//    Array.each(items, function(item, index, obj) {
+//      item.addClass('preview');
+//    });
+
+    var tempElements = new Elements(items);
+    tempElements.addClass('preview');
+  },
+
+  // Getters
+  // =======
+
+  // Get the width of our grid, in characters
+  getWidth: function() {
+    return this.width;
+  },
+
+  // Get the height of our grid, in characters
+  getHeight: function() {
+    return this.height;
+  },
+
+  // Calculate the size of a single monospaced character, both width and height,
+  // by creating a single M and measuring it's size.
+  getEmSize: function() {
+    var e = this.createSpan('tempSpan', 0, 0, '1em', '1em'),
+    emSize = null, letterSpacing = null;
+    this.elem.adopt(e);
+    emSize = e.getSize();
+    e.dispose();
+    return emSize;
   },
 
   // Find the click location on our grid. This is not a pixel value, but rather

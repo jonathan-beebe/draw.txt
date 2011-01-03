@@ -1,9 +1,9 @@
-var Utilities = {
+Array.implement({
 
-  arrayMerge: function() {
-    if(arguments.length === 0) { return null; }
+  merge: function() {
+    if(arguments.length === 0) { return this; }
     if(arguments.length === 1) {
-      return arguments[1];
+      return this.combine(arguments[1]);
     }
 
     var merged = [];
@@ -11,12 +11,38 @@ var Utilities = {
       merged.combine(item);
     });
 
-    return merged;
+    return this.combine(merged);
+  }
+
+});
+
+String.implement({
+
+  lowercaseFirstLetter : function(){
+    return this.charAt(0).toLowerCase() + this.slice(1);
+  }
+
+});
+
+Events.implement({
+
+  // Add event listeners to the grid
+  listen: function(events) {
+    Object.each(events, function(callback, eventType, object) {
+      this.addEvent(eventType, callback);
+    }, this);
   },
 
-  lowercaseFirstLetter : function(string){
-    return string.charAt(0).toLowerCase() + string.slice(1);
-  },
+  // Add event listeners to the grid
+  stopListening: function(events) {
+    Object.each(events, function(callback, eventType, object) {
+      this.removeEvent(eventType, callback);
+    }, this);
+  }
+
+});
+
+var Utilities = {
 
   /**
    * Enhance an object by turning all getX and setX methods into official
@@ -36,12 +62,12 @@ var Utilities = {
     Object.each(c, function(prop, n, obj) {
 
       if(n.indexOf('get') === 0 && n.indexOf('Options') === -1) {
-        n = Utilities.lowercaseFirstLetter(n.substr(3));
+        n = n.substr(3).lowercaseFirstLetter();
         props[n] = props[n] || {};
         props[n].get = prop;
       }
       else if(n.indexOf('set') === 0 && n.indexOf('Options') === -1) {
-        n = Utilities.lowercaseFirstLetter(n.substr(3));
+        n = n.substr(3).lowercaseFirstLetter();
         props[n] = props[n] || {};
         props[n].set = prop;
       }
@@ -74,12 +100,12 @@ var Utilities = {
     for(prop in c) {
 
       if(prop.indexOf('get') === 0 && prop.indexOf('Options') === -1) {
-        n = Utilities.lowercaseFirstLetter(prop.substr(3));
+        n = n.substr(3).lowercaseFirstLetter();
         props[n] = props[n] || {};
         props[n].get = c[prop];
       }
       else if(prop.indexOf('set') === 0 && prop.indexOf('Options') === -1) {
-        n = Utilities.lowercaseFirstLetter(prop.substr(3));
+        n = n.substr(3).lowercaseFirstLetter();
         props[n] = props[n] || {};
         props[n].set = c[prop];
       }
@@ -89,10 +115,6 @@ var Utilities = {
       Object.defineProperties(c, props);
     }
 
-  },
-
-  limit: function(val, min, max) {
-    return Math.max(min, Math.min(max, val));
   }
 
 };
