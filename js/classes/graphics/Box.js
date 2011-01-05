@@ -36,7 +36,7 @@ Box = new Class({
   // Refresh the box. Re-creates the matrix of display info.
   refresh: function() {
     if(this.solid) {
-      this.blankChar = '&nbsp;';
+      this.blankChar = Utilities.blankChar;
     }
     else {
       this.blankChar = undefined;

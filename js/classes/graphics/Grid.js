@@ -13,6 +13,8 @@ Grid = new Class({
   // This is the dom elem to target
   elem: null,
 
+  touch: null,
+
   // The size of our dom element
   size: null,
 
@@ -34,8 +36,14 @@ Grid = new Class({
   initialize: function(selector) {
     this.elem = $$(selector);
 
-    this.elem.addEvent('mousedown', this.mouseDown);
-    this.elem.addEvent('dblclick', this.doubleClick);
+    if (Browser.Platform.ipod){
+      this.touch = new Touch(this.elem[0]);
+      this.touch.addEvent('start', this.mouseDown);
+    }
+    else {
+      this.elem.addEvent('mousedown', this.mouseDown);
+      this.elem.addEvent('dblclick', this.doubleClick);
+    }
 
     this.drawGrid();
   },
@@ -55,21 +63,42 @@ Grid = new Class({
 
   mouseDown: function(e) {
 
-    $(document).addEvent('mouseup', this.mouseUp);
-    this.elem.addEvent('mousemove', this.mouseMove);
+    if(this.touch) {
+      this.touch.addEvent('move', this.mouseMove);
+      this.touch.addEvent('end', this.mouseUp);
+      this.touch.addEvent('cancel', this.mouseUp);
+    }
+    else {
+      $(document).addEvent('mouseup', this.mouseUp);
+      this.elem.addEvent('mousemove', this.mouseMove);
+    }
 
     this.ptA = this.findClickLocation(e.target);
+    this.ptB = this.ptA;
 
     this.fireEvent('mousedown', [this, this.ptA]);
 
-    e.stop();
+    if(!this.touch) {
+      e.stop();
+    }
+
     return false;
 
   },
 
-  mouseMove: function(e) {
+  // dx and dy come from the Touch move event
+  mouseMove: function(e, dx, dy) {
 
-    this.ptB = this.findClickLocation(e.target);
+    if(this.touch) {
+
+      var x = ((this.ptA.x * this.em.x) + dx) / this.em.x;
+      var y = ((this.ptA.y * this.em.y) + dy) / this.em.y;
+
+      this.ptB = new Point(Math.floor(x), Math.floor(y));
+    }
+    else {
+      this.ptB = this.findClickLocation(e.target);
+    }
 
     var parent = $$(e.target).getParents('#' + this.elem.get('id'));
 
@@ -77,25 +106,39 @@ Grid = new Class({
       this.fireEvent('mousemove', [this, this.ptA, this.ptB]);
     }
 
-    e.stop();
+    if(!this.touch) {
+      e.stop();
+    }
+
     return false;
 
   },
 
   mouseUp: function(e) {
 
-    $(document).removeEvent('mouseup', this.mouseUp);
-    this.elem.removeEvent('mousemove', this.mouseMove);
-
-    var parent = $$(e.target).getParents('#' + this.elem.get('id'));
-
-    if(parent[0].length) {
-      this.ptB = this.findClickLocation(e.target);
+    if(this.touch) {
+      this.touch.removeEvent('move', this.mouseMove);
+      this.touch.removeEvent('end', this.mouseUp);
     }
+    else {
+      $(document).removeEvent('mouseup', this.mouseUp);
+      this.elem.removeEvent('mousemove', this.mouseMove);
+    }
+
+//    var parent = $$(e.target).getParents('#' + this.elem.get('id'));
+//
+//    if(parent[0].length) {
+//      this.ptB = this.findClickLocation(e.target);
+//    }
+//
+//    console.log(this.ptB.toString());
 
     this.fireEvent('mouseup', [this, this.ptA, this.ptB]);
 
-    e.stop();
+    if(!this.touch) {
+      e.stop();
+    }
+
     return false;
 
   },

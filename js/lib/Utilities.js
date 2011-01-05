@@ -173,3 +173,11 @@ if (!Object.defineProperties) {
     }
   });
 }
+
+// this is because iOS does not display monospace fonts correctly
+if (Browser.Platform.ipod){
+  Utilities.blankChar = '<span class="sp">-&#8203;</span>';
+}
+else {
+  Utilities.blankChar = '&nbsp;';
+}

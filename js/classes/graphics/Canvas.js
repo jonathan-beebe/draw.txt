@@ -33,7 +33,7 @@ Canvas = new Class({
 
   // Initialize our display matrix
   initMatrix: function(w, h) {
-    this.txtArray = new Matrix(w, h, '&nbsp;');
+    this.txtArray = new Matrix(w, h, Utilities.blankChar);
   },
 
   // Manage the currently selected DisplayObject
@@ -85,6 +85,9 @@ Canvas = new Class({
         try {
           if(item === this.selected) {
             row = '<span class="selected">' + row + '</span>';
+          }
+          else {
+            row = '<span>' + row + '</span>';
           }
           m[Number(yOff) + columnIndex][Number(xOff) + rowIndex] = row;
         }

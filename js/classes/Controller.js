@@ -618,7 +618,8 @@ Controller = new Class({
   },
 
   cleanText: function(string) {
-    return string.replace(/&nbsp;\r?/g, ' ').replace(/<br\/>\r?/g, "\n").replace(/(<[\/]?[a-zA-Z ]+)[^>]*>/g, '');
+    var blankRegex = new RegExp(Utilities.blankChar + "\r?", 'gi');
+    return string.replace(blankRegex, ' ').replace(/<br\/>\r?/g, "\n").replace(/(<[\/]?[a-zA-Z ]+)[^>]*>/g, '');
   },
 
   // Get the local storage engine.

@@ -128,3 +128,7 @@ body.dark .bgbox:hover { background-color: rgba(0, 0, 0, 0.3); }
 body.dark .preview { background-color: rgba(255, 155, 0, .1); }
 
 /* </ Dark Styles > */
+
+
+
+span.sp { visibility: hidden; }
