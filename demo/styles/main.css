@@ -86,6 +86,15 @@ a:visited {
 
 .footer { float: left; }
 
+#social_links {
+  float: left;
+  margin-top: 19px;
+}
+
+#social_links * {
+  float: left;
+}
+
 
 
 
