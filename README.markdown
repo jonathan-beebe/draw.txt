@@ -3,7 +3,8 @@ Draw.txt [demo](http://somethingkindawierd.github.com/draw.txt/demo/index.html)
 
 ![Screenshot of draw.txt](https://github.com/somethingkindawierd/draw.txt/raw/master/screenshot.png "Sceenshot of draw.txt")
 
-A very simple drawing application for *drawing* a text file. [Try the live demo](http://somethingkindawierd.github.com/draw.txt/demo/index.html)
+A very simple drawing application for *drawing* a text file. [Try the live demo](http://somethingkindawierd.github.com/draw.txt/demo/index.html).
+View the [annotated source](http://somethingkindawierd.github.com/draw.txt/docs/draw.txt.html).
 
 Each character is a *pixel* and shapes are drawn with monospaced characters.
 The final product can be saved as a .txt file.
@@ -29,10 +30,47 @@ Boxes:
 Text:
 
 * You can create text by clicking on an empty grid-cell.
-*  Edit text by clicking on the text objcet.
+*  Edit text by double-clicking on the text objcet.
 *  Move text by clicking and dragging the object.
 
 Most commands are supported by the history, so undo and redo will work.
+
+Using
+=====
+
+If you have a web browser then you can run draw.txt. Just open `index.html` and
+you're up and running!
+
+Or you can [check out the live draw.txt demo](http://somethingkindawierd.github.com/draw.txt/demo/index.html).
+
+Contributing
+============
+
+draw.txt is written in Javascript, built upon on the [Mootools 1.3 framework](http://mootools.net/).
+If you know Javascript then you should be able to jump right in.
+If you know Mootools then you'll feel right at home!
+
+First you need to download the source. You can either clone the code from git:
+
+    git clone git://github.com/somethingkindawierd/draw.txt.git
+
+Or, better yet, fork it!
+
+To run the app using the development files in `/js` use `index.dev.html`.
+
+For the production-ready app, and to create the [docco](http://jashkenas.github.com/docco/) documentation, you need
+to run the `merge.php` script from your terminal. This merges all development `/js`
+development files into a single `/draw.txt.js` file. *(yeah, I know, I should have
+a script written in more of a standard-install language...)*
+
+    cd /path/to/draw.txt/
+    php merge.php
+
+If you want to update the [docco](http://jashkenas.github.com/docco/) [annotated source](http://somethingkindawierd.github.com/draw.txt/docs/draw.txt.html) after merging the code then run
+
+    docco draw.txt.js
+
+Then you should be able to open `/docs/draw.txt.html` and see the updated docs.
 
 To Do
 =====
@@ -74,7 +112,7 @@ New Display Objects
         x          x   *          *
          x        x     *        * 
             x  x           *  *    
-        
+
 *   Other?
 
 Canvas/Shape Interactions
@@ -88,11 +126,3 @@ Linking of shapes with lines
 
 One of my dreams for this app was the ability to link shapes with lines so when
 a shape is moved all connected lines move with it.
-
-Bugs
-----
-
-What would a new project like this be without a good bug or two?
-
-Right now the History is a bit shaky...sometimes commands don't undo or redo
-exactly how you'd expect.
