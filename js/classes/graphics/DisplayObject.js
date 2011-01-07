@@ -73,6 +73,7 @@ DisplayObject = new Class({
 // Display Object Factory
 // ======================
 
+// Simple factory for creating DisplayObjects from an object-map of properties.
 DisplayObjectFactory = (function(props) {
 
   var createDisplayObject = function(props) {

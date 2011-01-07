@@ -12,13 +12,13 @@
 // Define the files to merge
 
 $fileArray = array(
-    'js/main.js',
+    'js/classes/Controller.js',
+
     'js/lib/Utilities.js',
     
     'js/classes/geom/CharacterGrid.js',
     'js/classes/geom/Point.js',
     
-    'js/classes/Controller.js',
     'js/classes/Toolbar.js',
     
     'js/classes/history/History.js',

@@ -1,176 +1,13 @@
-
-// Let's define a console if none exists so those pesky debug statements don't
-// cause errors when Firebug is not open.
-if (!console) {
-  var console = { log:function() {} };
-}
-
-
-// Init our application when the dom is ready.
-window.addEvent('domready', function() {
-
-  controller = new Controller('#canvas', '#grid', '#toolbar');
-
-});
-
-
-Array.implement({
-
-  // Merge any number of arrays into a single array
-  merge: function() {
-    if(arguments.length === 0) { return this; }
-    if(arguments.length === 1) {
-      return this.combine(arguments[1]);
-    }
-
-    var merged = [];
-    Array.each(arguments, function(item, index, obj) {
-      merged.combine(item);
-    });
-
-    return this.combine(merged);
-  }
-
-});
-
-String.implement({
-
-  // Force the first letter of a string to lowercase.
-  lowercaseFirstLetter : function(){
-    return this.charAt(0).toLowerCase() + this.slice(1);
-  }
-
-});
-
-Events.implement({
-
-  // Add event listeners en masse
-  listen: function(events) {
-    Object.each(events, function(callback, eventType, object) {
-      this.addEvent(eventType, callback);
-    }, this);
-  },
-
-  // Remove event listeners en masse
-  stopListening: function(events) {
-    Object.each(events, function(callback, eventType, object) {
-      this.removeEvent(eventType, callback);
-    }, this);
-  }
-
-});
-
-// Utilities Namespace
-// ===================
-
-// A place for things to live until I find a better place for them...
-Utilities = {};
-
-// this is because iOS does not display monospace fonts correctly
-if (Browser.Platform.ipod){
-  Utilities.blankChar = '<span class="sp">-&#8203;</span>';
-}
-else {
-  Utilities.blankChar = '&nbsp;';
-}
-
-// Character Grid Class
-// ====================
-
-// A two-dimensional array, or grid, for storing a matrix of characters.
-var CharacterGrid = new Class({
-
-  // Main array holding rows, or arrays of characters (lines of text)
-  a: [],
-
-  // The width of the grid of characters.
-  w: 0,
-
-  // The height of the grid of characters.
-  h: 0,
-
-  // Default character for empty cells in the grid.
-  char: undefined,
-
-  // Constructor
-  initialize: function(w, h, char) {
-    this.w = w;
-    this.h = h;
-    this.char = char;
-    this.create();
-  },
-
-  reset: function(fillWith) {
-    this.create();
-  },
-
-  create: function() {
-    this.a = Array(this.h);
-    for(var i = 0; i < this.h; i++) {
-      this.a[i] = Array(this.w);
-    }
-    this.fill();
-  },
-
-  fill: function(c) {
-    c = c || this.char;
-    if(c !== undefined) {
-      for(var y = 0; y < this.h; y++) {
-        this.a[y] = new Array(this.w);
-        for(var x = 0; x < this.w; x++ ) {
-          this.a[y][x] = this.char;
-        }
-      }
-    }
-  },
-
-  getArray: function() {
-    return this.a;
-  },
-
-  toString: function() {
-    var t = '';
-    Array.each(this.a, function(item, index, object) {
-      t += item.join('') + '<br/>';
-    }, this);
-    return t;
-  }
-
-});
-
-// Point
-// =====
-
-// A very basic point class
-Point = new Class({
-
-  // x coordinate value
-  x: 0,
-
-  // y coordinate value
-  y: 0,
-
-  // Constructor
-  initialize: function(x, y) {
-    this.x = x || 0;
-    this.y = y || 0;
-  },
-
-  // Test the equality of this point to the input point.
-  equals: function(pt) {
-    return (this.x === pt.x && this.y === pt.y);
-  },
-
-  // Render to string
-  toString: function() {
-    return '{x:' + this.x + ', y:' + this.y + '}';
-  }
-
-});
+//     draw.txt
+//     (c) 2011 Jon Beebe (somethingkindawierd@gmail.com)
+//     draw.txt may be freely distributed under the MIT license.
+//     For all details and documentation:
+//     http://somethingkindawierd.github.com/draw.txt/
 
 // Controller
 // ==========
 
+// The main controller for the application.
 // I know, this file is a bit of a mess. It's been the catch-all for code before
 // I decide where I want it to live.
 Controller = new Class({
@@ -178,20 +15,20 @@ Controller = new Class({
   // Bind all event listeners to this class instance
   Binds: [
 
-          // Grid Events
+          // *Grid Events*
           'whenMouseDown',
           'whenMouseUp',
           'whenMouseMove',
           'whenGridCancel',
           'whenGridDoubleClick',
 
-          // History Events
+          // *History Events*
           'whenHistoryChange',
 
-          // Canvas Events
+          // *Canvas Events*
           'whenCanvasRefresh',
 
-          // Toolbar button events
+          // *Toolbar button events*
           'whenUndo',
           'whenRedo',
           'whenDelete',
@@ -241,12 +78,10 @@ Controller = new Class({
   // Constructor
   initialize: function(foreground, background, toolbar) {
 
-    // Create the background grid
     this.grid = new Grid(background);
 
     this.toolbar = new Toolbar(toolbar);
 
-    // Create the canvas to draw into
     this.canvas = new Canvas(
         foreground,
         this.grid.getWidth(),
@@ -283,7 +118,6 @@ Controller = new Class({
       resetOnScroll: true
     });
 
-    // Wire up event listeners
     this.initEvents();
 
     this.readLocalStorage();
@@ -648,8 +482,7 @@ Controller = new Class({
     // No existing command...create one.
     else {
 
-      // If the user did not move their mouse when clicking, then
-      // open the shape-editing dialog if approprate for target shape.
+      // If the user *did not* move their mouse when clicking...
       if(ptA.equals(ptB)) {
 
         // If it's text, open the text-editor.
@@ -772,8 +605,8 @@ Controller = new Class({
 
 
 
-  // Other...
-  // --------
+  // Other Controller Methods
+  // ------------------------
 
   getNewTextString: function(input, mode) {
     this.overlay.load('<textarea type="text" id="text" data-mode="' + mode + '" name="text">' + input + '</textarea>').open();
@@ -829,6 +662,188 @@ Controller = new Class({
 }); /* </ Controller > */
 
 
+// Array Enhancements
+// ---------------
+
+Array.implement({
+
+  // Merge any number of arrays into a single array
+  merge: function() {
+    if(arguments.length === 0) { return this; }
+    if(arguments.length === 1) {
+      return this.combine(arguments[1]);
+    }
+
+    var merged = [];
+    Array.each(arguments, function(item, index, obj) {
+      merged.combine(item);
+    });
+
+    return this.combine(merged);
+  }
+
+});
+
+// String Enhancements
+// ----------------
+
+String.implement({
+
+  // Force the first letter of a string to lowercase.
+  lowercaseFirstLetter : function(){
+    return this.charAt(0).toLowerCase() + this.slice(1);
+  }
+
+});
+
+// Event Enhancements
+// ---------------
+
+Events.implement({
+
+  // Add event listeners en masse
+  listen: function(events) {
+    Object.each(events, function(callback, eventType, object) {
+      this.addEvent(eventType, callback);
+    }, this);
+  },
+
+  // Remove event listeners en masse
+  stopListening: function(events) {
+    Object.each(events, function(callback, eventType, object) {
+      this.removeEvent(eventType, callback);
+    }, this);
+  }
+
+});
+
+// Options Enhancements
+// -----------------
+
+Options.implement({
+  
+  getOption: function(opt) {
+    return this.options[opt];
+  },
+  
+  setOption: function(opt, value) {
+    this.options[opt] = value;
+  }
+  
+});
+
+// Utilities Namespace
+// -------------------
+
+// A place for things to live until I find a better place for them...
+Utilities = {};
+
+// Define a blank html character. We need to do this because iOS 
+// [does not display monospace fonts correctly](http://www.cocoabuilder.com/archive/cocoa/296556-ios-monospaced-fonts-aren.html)
+if (Browser.Platform.ipod){
+  Utilities.blankChar = '<span class="sp">-&#8203;</span>';
+}
+else {
+  Utilities.blankChar = '&nbsp;';
+}
+
+
+// Character Grid Class
+// ====================
+
+// A two-dimensional array, or grid, for storing a matrix of characters.
+var CharacterGrid = new Class({
+
+  // Main array holding rows, or arrays of characters (lines of text)
+  a: [],
+
+  // The width of the grid of characters.
+  w: 0,
+
+  // The height of the grid of characters.
+  h: 0,
+
+  // Default character for empty cells in the grid.
+  char: undefined,
+
+  // Constructor
+  initialize: function(w, h, char) {
+    this.w = w;
+    this.h = h;
+    this.char = char;
+    this.create();
+  },
+
+  reset: function(fillWith) {
+    this.create();
+  },
+
+  // Create an empty grid. Fill all cells with the default character.
+  create: function() {
+    this.a = Array(this.h);
+    this.fill();
+  },
+
+  // Fill the entire grid with a single character, useful for clearing the grid.
+  fill: function(c) {
+    c = c || this.char;
+    for(var y = 0; y < this.h; y++) {
+      this.a[y] = new Array(this.w);
+      for(var x = 0; x < this.w; x++ ) {
+        this.a[y][x] = this.char;
+      }
+    }
+  },
+
+  getArray: function() {
+    return this.a;
+  },
+
+  toString: function() {
+    var t = '';
+    Array.each(this.a, function(item, index, object) {
+      t += item.join('') + '<br/>';
+    }, this);
+    return t;
+  }
+
+});
+
+
+// Point
+// =====
+
+// A very basic point class
+Point = new Class({
+
+  // x coordinate value
+  x: 0,
+
+  // y coordinate value
+  y: 0,
+
+  // Constructor
+  initialize: function(x, y) {
+    this.x = x || 0;
+    this.y = y || 0;
+  },
+
+  // Test the equality of this point to the input point.
+  equals: function(pt) {
+    return (this.x === pt.x && this.y === pt.y);
+  },
+
+  // Render to string
+  toString: function() {
+    return '{x:' + this.x + ', y:' + this.y + '}';
+  }
+
+});
+
+// Toolbar Class
+// =============
+
+// Define a basic toolbar for managing buttons in app.
 Toolbar = new Class({
 
   // Our toolbar element
@@ -837,10 +852,10 @@ Toolbar = new Class({
   // Constructor
   initialize: function(selector) {
 
-    // Find our toolbar element
     this.elem = $$(selector);
 
-    // Listen to a click on our toolbar...
+    // Listen to a click on our toolbar. The specific button clicked will be
+    // identified in the event handler.
     this.elem.addEvent('click', this.whenClick.bind(this));
   },
 
@@ -851,17 +866,16 @@ Toolbar = new Class({
     }, this);
   },
 
-  // Respond to the user clicking on our toolbar
+  // Respond to the user clicking on our toolbar. Identify the button clicked
+  // dispatch the corresponding button event.
   whenClick: function(e) {
-
-    // If the user clicked on one of the images then
-    // dispatch the correct tool event
     if(e.target.nodeName.toLowerCase() === 'div') {
       this.elem.fireEvent(e.target.id);
     }
   }
 
 });
+
 
 // History
 // =======
@@ -957,9 +971,9 @@ History = new Class({
 // The base command class.
 // All specific commands should implement this interface.
 //
-// Expects a DisplayObject as its target
-// Implements an execute method to apply the command, and
-// implements a revert method to undo the command.
+// * Expects a `DisplayObject` as its target. 
+// * Implements an `execute` method to apply the command, and
+// * implements a `revert` method to undo the command.
 ICommand = new Class({
 
   // The target DisplayObject to apply this command to.
@@ -996,12 +1010,13 @@ ICommand = new Class({
     this.canvas = val;
   },
 
-  // Override this for debugging.
+  // Override toString this for debugging of commands.
   toString: function() {
     throw "Command classes must implement their own toString methods";
   }
 
 });
+
 
 // Create Command
 // ==============
@@ -1288,6 +1303,7 @@ ArrangeSwapCommand = new Class({
 // Defined the character grid to draw within.
 Grid = new Class({
 
+  // Bind these event handlers to this class instance
   Binds: ['mouseDown',
           'mouseMove',
           'mouseUp',
@@ -1295,29 +1311,31 @@ Grid = new Class({
 
   Implements: Events,
 
-  // This is the dom elem to target
+  // This is the dom elem to target.
   elem: null,
 
+  // Are we using touch instead of mouse clicks?
   touch: null,
 
-  // The size of our dom element
+  // The size of our dom element.
   size: null,
 
-  // This is the size of a single monospaced letter {x:#, y:#}
+  // This is the pixel size of a single monospaced letter {x:#, y:#}.
   em: null,
 
-  // The width of our background in characters
+  // The width of our background in characters.
   width: null,
 
-  // The height of our background in characters
+  // The height of our background in characters.
   height: null,
 
-  // The first point of an action
+  // The first point of an action.
   ptA: null,
 
-  // The most recent point of an action
+  // The most recent point of an action.
   ptB: null,
 
+  // Constructor.
   initialize: function(selector) {
     this.elem = $$(selector);
 
@@ -1334,7 +1352,7 @@ Grid = new Class({
   },
 
   // Mouse Events
-  // ============
+  // ------------
 
   doubleClick: function(e) {
 
@@ -1371,13 +1389,18 @@ Grid = new Class({
 
   },
 
-  // dx and dy come from the Touch move event
+  // `e` comes from both mouse move and touch move events.
+  // `dx`, and `dy` only apply to touch move events.
   mouseMove: function(e, dx, dy) {
 
+    var x, y, parent;
+
+    // If this was a touch event then we must calculate the position using the
+    // touch event's delta, converting pixel units to character units.
     if(this.touch) {
 
-      var x = ((this.ptA.x * this.em.x) + dx) / this.em.x;
-      var y = ((this.ptA.y * this.em.y) + dy) / this.em.y;
+      x = ((this.ptA.x * this.em.x) + dx) / this.em.x;
+      y = ((this.ptA.y * this.em.y) + dy) / this.em.y;
 
       this.ptB = new Point(Math.floor(x), Math.floor(y));
     }
@@ -1385,7 +1408,7 @@ Grid = new Class({
       this.ptB = this.findClickLocation(e.target);
     }
 
-    var parent = $$(e.target).getParents('#' + this.elem.get('id'));
+    parent = $$(e.target).getParents('#' + this.elem.get('id'));
 
     if(parent[0].length) {
       this.fireEvent('mousemove', [this, this.ptA, this.ptB]);
@@ -1401,6 +1424,7 @@ Grid = new Class({
 
   mouseUp: function(e) {
 
+    // Clean up event listeners since the user's action is complete.
     if(this.touch) {
       this.touch.removeEvent('move', this.mouseMove);
       this.touch.removeEvent('end', this.mouseUp);
@@ -1409,14 +1433,6 @@ Grid = new Class({
       $(document).removeEvent('mouseup', this.mouseUp);
       this.elem.removeEvent('mousemove', this.mouseMove);
     }
-
-//    var parent = $$(e.target).getParents('#' + this.elem.get('id'));
-//
-//    if(parent[0].length) {
-//      this.ptB = this.findClickLocation(e.target);
-//    }
-//
-//    console.log(this.ptB.toString());
 
     this.fireEvent('mouseup', [this, this.ptA, this.ptB]);
 
@@ -1429,7 +1445,7 @@ Grid = new Class({
   },
 
   // DOM Work
-  // ========
+  // --------
 
   // Draw the grid of squares representing our editable area.
   // Each square is akin to a pixel, and is the exact same size a
@@ -1558,7 +1574,7 @@ Grid = new Class({
   },
 
   // Getters
-  // =======
+  // -------
 
   // Get the width of our grid, in characters
   getWidth: function() {
@@ -1786,8 +1802,8 @@ Canvas = new Class({
     return this.displayList.length;
   },
 
-  // Other methods
-  // -------------
+  // Other Canvas methods
+  // --------------------
 
   getText: function(redraw) {
     if(redraw) {
@@ -1917,6 +1933,7 @@ DisplayObject = new Class({
 // Display Object Factory
 // ======================
 
+// Simple factory for creating DisplayObjects from an object-map of properties.
 DisplayObjectFactory = (function(props) {
 
   var createDisplayObject = function(props) {
@@ -1941,6 +1958,7 @@ DisplayObjectFactory = (function(props) {
   return {create: createDisplayObject};
 
 })();
+
 
 // Box
 // ====

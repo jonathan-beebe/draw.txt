@@ -1,6 +1,13 @@
+//     draw.txt
+//     (c) 2011 Jon Beebe (somethingkindawierd@gmail.com)
+//     draw.txt may be freely distributed under the MIT license.
+//     For all details and documentation:
+//     http://somethingkindawierd.github.com/draw.txt/
+
 // Controller
 // ==========
 
+// The main controller for the application.
 // I know, this file is a bit of a mess. It's been the catch-all for code before
 // I decide where I want it to live.
 Controller = new Class({
@@ -8,20 +15,20 @@ Controller = new Class({
   // Bind all event listeners to this class instance
   Binds: [
 
-          // Grid Events
+          // *Grid Events*
           'whenMouseDown',
           'whenMouseUp',
           'whenMouseMove',
           'whenGridCancel',
           'whenGridDoubleClick',
 
-          // History Events
+          // *History Events*
           'whenHistoryChange',
 
-          // Canvas Events
+          // *Canvas Events*
           'whenCanvasRefresh',
 
-          // Toolbar button events
+          // *Toolbar button events*
           'whenUndo',
           'whenRedo',
           'whenDelete',
@@ -71,12 +78,10 @@ Controller = new Class({
   // Constructor
   initialize: function(foreground, background, toolbar) {
 
-    // Create the background grid
     this.grid = new Grid(background);
 
     this.toolbar = new Toolbar(toolbar);
 
-    // Create the canvas to draw into
     this.canvas = new Canvas(
         foreground,
         this.grid.getWidth(),
@@ -113,7 +118,6 @@ Controller = new Class({
       resetOnScroll: true
     });
 
-    // Wire up event listeners
     this.initEvents();
 
     this.readLocalStorage();
@@ -478,8 +482,7 @@ Controller = new Class({
     // No existing command...create one.
     else {
 
-      // If the user did not move their mouse when clicking, then
-      // open the shape-editing dialog if approprate for target shape.
+      // If the user *did not* move their mouse when clicking...
       if(ptA.equals(ptB)) {
 
         // If it's text, open the text-editor.
@@ -602,8 +605,8 @@ Controller = new Class({
 
 
 
-  // Other...
-  // --------
+  // Other Controller Methods
+  // ------------------------
 
   getNewTextString: function(input, mode) {
     this.overlay.load('<textarea type="text" id="text" data-mode="' + mode + '" name="text">' + input + '</textarea>').open();

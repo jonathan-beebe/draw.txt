@@ -13,8 +13,6 @@
         <!-- draw.txt scripts -->
         <script type="text/javascript" src="js/lib/Utilities.js"></script>
         
-        <script type="text/javascript" src="js/main.js"></script>
-        
         <script type="text/javascript" src="js/classes/geom/CharacterGrid.js"></script>
         <script type="text/javascript" src="js/classes/geom/Point.js"></script>
 
@@ -43,6 +41,24 @@
         <script type="text/javascript" src="js/lib/plugins/LocalStorage.js"></script>
         <script type="text/javascript" src="js/lib/plugins/LocalFileStorage.js"></script>
         <script type="text/javascript" src="js/lib/plugins/Touch.js"></script>
+
+        <script>
+
+          // Let's define a console if none exists so those pesky debug statements don't
+          // cause errors when Firebug is not open.
+          if (!console) {
+            var console = { log:function() {} };
+          }
+
+
+          // Init our application when the dom is ready.
+          window.addEvent('domready', function() {
+
+            controller = new Controller('#canvas', '#grid', '#toolbar');
+
+          });
+
+        </script>
         
     </head>
     <body>

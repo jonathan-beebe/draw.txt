@@ -4,9 +4,9 @@
 // The base command class.
 // All specific commands should implement this interface.
 //
-// Expects a DisplayObject as its target
-// Implements an execute method to apply the command, and
-// implements a revert method to undo the command.
+// * Expects a `DisplayObject` as its target. 
+// * Implements an `execute` method to apply the command, and
+// * implements a `revert` method to undo the command.
 ICommand = new Class({
 
   // The target DisplayObject to apply this command to.
@@ -43,7 +43,7 @@ ICommand = new Class({
     this.canvas = val;
   },
 
-  // Override this for debugging.
+  // Override toString this for debugging of commands.
   toString: function() {
     throw "Command classes must implement their own toString methods";
   }

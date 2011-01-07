@@ -189,8 +189,8 @@ Canvas = new Class({
     return this.displayList.length;
   },
 
-  // Other methods
-  // -------------
+  // Other Canvas methods
+  // --------------------
 
   getText: function(redraw) {
     if(redraw) {

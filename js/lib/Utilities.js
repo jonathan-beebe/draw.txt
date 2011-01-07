@@ -1,3 +1,6 @@
+// Array Enhancements
+// ---------------
+
 Array.implement({
 
   // Merge any number of arrays into a single array
@@ -17,6 +20,9 @@ Array.implement({
 
 });
 
+// String Enhancements
+// ----------------
+
 String.implement({
 
   // Force the first letter of a string to lowercase.
@@ -25,6 +31,9 @@ String.implement({
   }
 
 });
+
+// Event Enhancements
+// ---------------
 
 Events.implement({
 
@@ -44,13 +53,29 @@ Events.implement({
 
 });
 
+// Options Enhancements
+// -----------------
+
+Options.implement({
+  
+  getOption: function(opt) {
+    return this.options[opt];
+  },
+  
+  setOption: function(opt, value) {
+    this.options[opt] = value;
+  }
+  
+});
+
 // Utilities Namespace
-// ===================
+// -------------------
 
 // A place for things to live until I find a better place for them...
 Utilities = {};
 
-// this is because iOS does not display monospace fonts correctly
+// Define a blank html character. We need to do this because iOS 
+// [does not display monospace fonts correctly](http://www.cocoabuilder.com/archive/cocoa/296556-ios-monospaced-fonts-aren.html)
 if (Browser.Platform.ipod){
   Utilities.blankChar = '<span class="sp">-&#8203;</span>';
 }

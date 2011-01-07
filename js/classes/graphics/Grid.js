@@ -4,6 +4,7 @@
 // Defined the character grid to draw within.
 Grid = new Class({
 
+  // Bind these event handlers to this class instance
   Binds: ['mouseDown',
           'mouseMove',
           'mouseUp',
@@ -11,29 +12,31 @@ Grid = new Class({
 
   Implements: Events,
 
-  // This is the dom elem to target
+  // This is the dom elem to target.
   elem: null,
 
+  // Are we using touch instead of mouse clicks?
   touch: null,
 
-  // The size of our dom element
+  // The size of our dom element.
   size: null,
 
-  // This is the size of a single monospaced letter {x:#, y:#}
+  // This is the pixel size of a single monospaced letter {x:#, y:#}.
   em: null,
 
-  // The width of our background in characters
+  // The width of our background in characters.
   width: null,
 
-  // The height of our background in characters
+  // The height of our background in characters.
   height: null,
 
-  // The first point of an action
+  // The first point of an action.
   ptA: null,
 
-  // The most recent point of an action
+  // The most recent point of an action.
   ptB: null,
 
+  // Constructor.
   initialize: function(selector) {
     this.elem = $$(selector);
 
@@ -50,7 +53,7 @@ Grid = new Class({
   },
 
   // Mouse Events
-  // ============
+  // ------------
 
   doubleClick: function(e) {
 
@@ -87,13 +90,18 @@ Grid = new Class({
 
   },
 
-  // dx and dy come from the Touch move event
+  // `e` comes from both mouse move and touch move events.
+  // `dx`, and `dy` only apply to touch move events.
   mouseMove: function(e, dx, dy) {
 
+    var x, y, parent;
+
+    // If this was a touch event then we must calculate the position using the
+    // touch event's delta, converting pixel units to character units.
     if(this.touch) {
 
-      var x = ((this.ptA.x * this.em.x) + dx) / this.em.x;
-      var y = ((this.ptA.y * this.em.y) + dy) / this.em.y;
+      x = ((this.ptA.x * this.em.x) + dx) / this.em.x;
+      y = ((this.ptA.y * this.em.y) + dy) / this.em.y;
 
       this.ptB = new Point(Math.floor(x), Math.floor(y));
     }
@@ -101,7 +109,7 @@ Grid = new Class({
       this.ptB = this.findClickLocation(e.target);
     }
 
-    var parent = $$(e.target).getParents('#' + this.elem.get('id'));
+    parent = $$(e.target).getParents('#' + this.elem.get('id'));
 
     if(parent[0].length) {
       this.fireEvent('mousemove', [this, this.ptA, this.ptB]);
@@ -117,6 +125,7 @@ Grid = new Class({
 
   mouseUp: function(e) {
 
+    // Clean up event listeners since the user's action is complete.
     if(this.touch) {
       this.touch.removeEvent('move', this.mouseMove);
       this.touch.removeEvent('end', this.mouseUp);
@@ -125,14 +134,6 @@ Grid = new Class({
       $(document).removeEvent('mouseup', this.mouseUp);
       this.elem.removeEvent('mousemove', this.mouseMove);
     }
-
-//    var parent = $$(e.target).getParents('#' + this.elem.get('id'));
-//
-//    if(parent[0].length) {
-//      this.ptB = this.findClickLocation(e.target);
-//    }
-//
-//    console.log(this.ptB.toString());
 
     this.fireEvent('mouseup', [this, this.ptA, this.ptB]);
 
@@ -145,7 +146,7 @@ Grid = new Class({
   },
 
   // DOM Work
-  // ========
+  // --------
 
   // Draw the grid of squares representing our editable area.
   // Each square is akin to a pixel, and is the exact same size a
@@ -274,7 +275,7 @@ Grid = new Class({
   },
 
   // Getters
-  // =======
+  // -------
 
   // Get the width of our grid, in characters
   getWidth: function() {

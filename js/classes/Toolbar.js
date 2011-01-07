@@ -1,3 +1,7 @@
+// Toolbar Class
+// =============
+
+// Define a basic toolbar for managing buttons in app.
 Toolbar = new Class({
 
   // Our toolbar element
@@ -6,10 +10,10 @@ Toolbar = new Class({
   // Constructor
   initialize: function(selector) {
 
-    // Find our toolbar element
     this.elem = $$(selector);
 
-    // Listen to a click on our toolbar...
+    // Listen to a click on our toolbar. The specific button clicked will be
+    // identified in the event handler.
     this.elem.addEvent('click', this.whenClick.bind(this));
   },
 
@@ -20,11 +24,9 @@ Toolbar = new Class({
     }, this);
   },
 
-  // Respond to the user clicking on our toolbar
+  // Respond to the user clicking on our toolbar. Identify the button clicked
+  // dispatch the corresponding button event.
   whenClick: function(e) {
-
-    // If the user clicked on one of the images then
-    // dispatch the correct tool event
     if(e.target.nodeName.toLowerCase() === 'div') {
       this.elem.fireEvent(e.target.id);
     }
