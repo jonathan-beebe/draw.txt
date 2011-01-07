@@ -1,5 +1,5 @@
 // Artboard for drawing
-// --------------------
+// ====================
 
 // This is where you do your drawing...
 Canvas = new Class({
@@ -12,7 +12,7 @@ Canvas = new Class({
   displayList: [],
 
   // Our matrix of text characters making up our display
-  txtArray: [],
+  characterGrid: [],
 
   // Here we store our display as a string
   txt: '',
@@ -33,7 +33,7 @@ Canvas = new Class({
 
   // Initialize our display matrix
   initMatrix: function(w, h) {
-    this.txtArray = new Matrix(w, h, Utilities.blankChar);
+    this.characterGrid = new CharacterGrid(w, h, Utilities.blankChar);
   },
 
   // Manage the currently selected DisplayObject
@@ -62,7 +62,7 @@ Canvas = new Class({
     Array.each(this.displayList, this.drawDisplayListItem, this);
 
     // Insert into DOM
-    this.txt = this.txtArray.toString();
+    this.txt = this.characterGrid.toString();
     this.elem.set('html', this.txt);
 
     if(!silent) {
@@ -78,7 +78,7 @@ Canvas = new Class({
         xOff = item.getX(),
         yOff = item.getY(),
         a = item.draw(),
-        m = this.txtArray.getArray();
+        m = this.characterGrid.getArray();
 
     Array.each(a, function(column, columnIndex, object) {
       Array.each(column, function(row, rowIndex, object) {
@@ -117,7 +117,7 @@ Canvas = new Class({
   },
 
   // Display List Management
-  // =======================
+  // -----------------------
 
   addChild: function(child) {
     this.displayList.push(child);
@@ -190,7 +190,7 @@ Canvas = new Class({
   },
 
   // Other methods
-  // =============
+  // -------------
 
   getText: function(redraw) {
     if(redraw) {

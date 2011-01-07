@@ -1,4 +1,5 @@
-// # Display Object
+// Display Object
+// ==============
 
 // Base display object for all objects drawn into the canvas
 DisplayObject = new Class({
@@ -68,6 +69,9 @@ DisplayObject = new Class({
   }
 
 });
+
+// Display Object Factory
+// ======================
 
 DisplayObjectFactory = (function(props) {
 

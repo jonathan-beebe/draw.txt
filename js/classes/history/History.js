@@ -1,4 +1,5 @@
-// # History
+// History
+// =======
 
 // The History class for storing the user's actions in time.
 // Paired with the Command class, it provides for a basic undo/redo system.
@@ -64,19 +65,13 @@ History = new Class({
     this.stack.push(command);
     this.pos++;
 
+    // Return this so we can chain...
     return this;
   },
 
   execute: function() {
     this.stack[this.stack.length-1].execute();
     this.fireEvent('redo');
-  },
-
-  // Add event listeners to the canvas
-  listen: function(events) {
-    Object.each(events, function(callback, eventType, object) {
-      this.addEvent(eventType, callback);
-    }, this);
   },
 
   toString: function() {

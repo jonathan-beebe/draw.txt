@@ -1,4 +1,5 @@
-// # Grid
+// Grid
+// ====
 
 // Defined the character grid to draw within.
 Grid = new Class({

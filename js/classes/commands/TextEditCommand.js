@@ -1,5 +1,5 @@
 // Text Edit Command
-// -----------------
+// =================
 
 // Edit the textual content of a Text Display Object
 TextEditCommand = new Class({
@@ -9,16 +9,14 @@ TextEditCommand = new Class({
   // The target DisplayObject to be edited.
   target: null,
 
+  // The text string prior to applying this command.
   originalText: null,
 
+  // The new text string to apply using this command.
   newText: null,
 
   // Constructor
   initialize: function() {},
-
-  setTarget: function(val) {
-    this.target = val;
-  },
 
   setOriginalText: function(val) {
     this.originalText = val;

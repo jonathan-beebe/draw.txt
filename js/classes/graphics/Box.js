@@ -1,4 +1,5 @@
-// # Box
+// Box
+// ====
 
 // Class definition
 Box = new Class({
@@ -41,7 +42,7 @@ Box = new Class({
     else {
       this.blankChar = undefined;
     }
-    this.m = new Matrix(this.width, this.height, this.blankChar);
+    this.m = new CharacterGrid(this.width, this.height, this.blankChar);
   },
 
   getWidth: function() { return this.width; },

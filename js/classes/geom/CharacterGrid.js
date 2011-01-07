@@ -1,10 +1,22 @@
-var Matrix = new Class({
+// Character Grid Class
+// ====================
 
+// A two-dimensional array, or grid, for storing a matrix of characters.
+var CharacterGrid = new Class({
+
+  // Main array holding rows, or arrays of characters (lines of text)
   a: [],
+
+  // The width of the grid of characters.
   w: 0,
+
+  // The height of the grid of characters.
   h: 0,
+
+  // Default character for empty cells in the grid.
   char: undefined,
 
+  // Constructor
   initialize: function(w, h, char) {
     this.w = w;
     this.h = h;

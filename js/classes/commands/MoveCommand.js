@@ -1,5 +1,5 @@
 // Move Command
-// ------------
+// ============
 
 // Move a display object.
 MoveCommand = new Class({

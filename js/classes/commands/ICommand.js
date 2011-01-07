@@ -1,28 +1,34 @@
-// # Command Interface
+// Command Interface
+// =================
 
 // The base command class.
 // All specific commands should implement this interface.
+//
+// Expects a DisplayObject as its target
+// Implements an execute method to apply the command, and
+// implements a revert method to undo the command.
 ICommand = new Class({
 
   // The target DisplayObject to apply this command to.
   target: null,
 
-  // The canvas we will add to and remove from.
+  // The canvas where DisplayObjects are drawn.
+  // Here for convenience. Not all commands require this.
   canvas: null,
 
   // Constructor
   initialize: function() {},
 
-  // Override the before method in child classes
+  // Override this method in child classes
   // Set the target to its original state before this command was applied.
   revert: function() {
-    throw "Command classes must implement the 'before' method";
+    throw "Command classes must implement the 'revert' method";
   },
 
-  // Override the after method in child classes
+  // Override this method in child classes
   // Apply command -- target will be in new state after changes applied.
   execute: function() {
-    throw "Command classes must implement the 'after' method";
+    throw "Command classes must implement the 'execute' method";
   },
 
   setTarget: function(val) {

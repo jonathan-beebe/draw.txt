@@ -1,9 +1,15 @@
+// Delete Command
+// ==============
+
+// Remove a DisplayObject from the display list.
 DeleteCommand = new Class({
 
   Implements: ICommand,
 
+  // The index where target DisplayObject lived prior to deletion
   targetIndex: null,
 
+  // Constructor
   initialize: function(){},
 
   setTargetIndex: function(val) {

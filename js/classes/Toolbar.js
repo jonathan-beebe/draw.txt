@@ -13,7 +13,7 @@ Toolbar = new Class({
     this.elem.addEvent('click', this.whenClick.bind(this));
   },
 
-  // Add event listeners to the canvas
+  // Add event listeners to the toolbar element en masse.
   listen: function(events) {
     Object.each(events, function(callback, eventType, object) {
       this.elem.addEvent(eventType, callback);
@@ -25,12 +25,9 @@ Toolbar = new Class({
 
     // If the user clicked on one of the images then
     // dispatch the correct tool event
-    if(e.target.nodeName.toLowerCase() === 'img') {
+    if(e.target.nodeName.toLowerCase() === 'div') {
       this.elem.fireEvent(e.target.id);
     }
   }
 
 });
-
-Element.Events.undo = {};
-Element.Events.redo = {};

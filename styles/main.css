@@ -25,27 +25,34 @@ a:visited {
   margin: -26px 0 0 0;
   position: relative;
   z-index: 1;
-  height: 22px;
+  height: 26px;
 }
 
-#toolbar span.spacer { margin: 0 5px; }
+#toolbar span.spacer { margin: 0 5px; float: left; }
 
-#toolbar #openClosePlaceholder {
-	width: 40px;
-	height: 16px;
-	overflow: hidden;
-    display: inline-block;
-}
-
-#toolbar img, #openClosePlaceholder {
+#toolbar .button {
     position: relative;
-    padding: 2px;
+    margin: 2px 5px;
     top: 2px;
+    width: 16px;
+    height: 16px;
+    float: left;
+    text-indent: -3000px;
 }
 
-#toolbar img:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-}
+#open { background: url('../images/merged.png') -96px 0; }
+#save { background: url('../images/merged.png') -80px 0; }
+#undo { background: url('../images/merged.png') 0 0; }
+#redo { background: url('../images/merged.png') -16px 0; }
+#edit { background: url('../images/merged.png') -32px 0; }
+#preview { background: url('../images/merged.png') -48px 0; }
+#move_front { background: url('../images/merged.png') -208px 0; }
+#move_up { background: url('../images/merged.png') -192px 0; }
+#move_down { background: url('../images/merged.png') -176px 0; }
+#move_back { background: url('../images/merged.png') -160px 0; }
+#toggle_solid { background: url('../images/merged.png') -144px 0; }
+#toggle_interface { background: url('../images/merged.png') -128px 0; }
+#delete { background: url('../images/merged.png') -112px 0; }
 
 #left, #right, #grid, #canvas {
     width: 730px; height: 460px;

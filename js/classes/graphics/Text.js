@@ -1,4 +1,5 @@
-// # Text Display Object
+// Text Display Object
+// ===================
 
 // A basic text container
 Text = new Class({

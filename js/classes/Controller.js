@@ -1,6 +1,6 @@
-// # Controller
+// Controller
+// ==========
 
-// Class definition.
 // I know, this file is a bit of a mess. It's been the catch-all for code before
 // I decide where I want it to live.
 Controller = new Class({
@@ -35,7 +35,8 @@ Controller = new Class({
           'whenSave'
   ],
 
-  // ## Class Properties
+  // Class Properties
+  // ----------------
 
   background: null,
 
@@ -64,7 +65,8 @@ Controller = new Class({
 
 
 
-  // ## Initialization
+  // Initialization
+  // --------------
 
   // Constructor
   initialize: function(foreground, background, toolbar) {
@@ -170,8 +172,8 @@ Controller = new Class({
 
 
 
-  // ## Event Listeners
-
+  // Event Listeners
+  // ---------------
 
 
 
@@ -274,6 +276,7 @@ Controller = new Class({
     var indexA = this.canvas.getIndexOfSelected(),
         command = new ArrangeFrontCommand();
 
+    command.setTarget(this.canvas.getSelected());
     command.setOriginalDepth(indexA);
     command.setCanvas(this.canvas);
 
@@ -314,6 +317,7 @@ Controller = new Class({
     var indexA = this.canvas.getIndexOfSelected(),
         command = new ArrangeBackCommand();
 
+    command.setTarget(this.canvas.getSelected());
     command.setOriginalDepth(indexA);
     command.setCanvas(this.canvas);
 
@@ -454,7 +458,8 @@ Controller = new Class({
 
 
 
-  // ## Interact with the canvas
+  // Interact with the canvas
+  // ------------------------
 
   // Catch-all for shape-edit actions.
   // Determine what the user is trying to do, and create/perform the command.
@@ -597,7 +602,8 @@ Controller = new Class({
 
 
 
-  // ## Other...
+  // Other...
+  // --------
 
   getNewTextString: function(input, mode) {
     this.overlay.load('<textarea type="text" id="text" data-mode="' + mode + '" name="text">' + input + '</textarea>').open();

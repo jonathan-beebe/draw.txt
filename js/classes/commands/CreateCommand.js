@@ -1,4 +1,5 @@
-// # Create Command
+// Create Command
+// ==============
 
 // Create a new DisplayObject.
 CreateCommand = new Class({
@@ -10,10 +11,6 @@ CreateCommand = new Class({
 
   // Constructor
   initialize: function() {},
-
-  setTarget: function(val) {
-    this.target = val;
-  },
 
   // Add the target DisplayObject to the canvas.
   execute: function() {

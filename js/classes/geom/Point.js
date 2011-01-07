@@ -1,4 +1,5 @@
-// # Point
+// Point
+// =====
 
 // A very basic point class
 Point = new Class({
@@ -9,12 +10,13 @@ Point = new Class({
   // y coordinate value
   y: 0,
 
-  // constructor
+  // Constructor
   initialize: function(x, y) {
     this.x = x || 0;
     this.y = y || 0;
   },
 
+  // Test the equality of this point to the input point.
   equals: function(pt) {
     return (this.x === pt.x && this.y === pt.y);
   },
