@@ -16,6 +16,10 @@ Array.implement({
     });
 
     return this.combine(merged);
+  },
+  
+  removeFirst: function() {
+    this.splice(0, 1);
   }
 
 });
