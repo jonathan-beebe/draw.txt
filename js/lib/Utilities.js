@@ -72,6 +72,20 @@ Options.implement({
   
 });
 
+// Element Enhancements
+// --------------------
+
+Element.implement({
+  closest: function(selector) {
+     var matches = $$(selector);
+     var cur = this;
+     while (cur && !matches.contains(cur)) {
+        cur = cur.getParent();
+     }
+     return cur;
+  }
+});
+
 // Utilities Namespace
 // -------------------
 
