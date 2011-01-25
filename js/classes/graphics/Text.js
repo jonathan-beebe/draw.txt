@@ -73,7 +73,7 @@ Text = new Class({
         name: this.name,
         x: this.x,
         y: this.y,
-        txt: this.txt.replace('\n', '\\n')
+        txt: this.txt//.replace('\n', '\\n')
     };
     return json;
   },
